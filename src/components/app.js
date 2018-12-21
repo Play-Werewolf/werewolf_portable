@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 
-export default class App extends Component {
+import { connect } from "react-redux";
+
+import LoginScreen from "./containers/LoginScreen";
+import MainScreen from "./containers/MainScreen";
+
+class App extends Component {
   render() {
-    return (
-      <div>React simple starter</div>
-    );
+    return <MainScreen/>
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    login: state.auth.login
+  };
+};
+
+export default connect(mapStateToProps)(App);
