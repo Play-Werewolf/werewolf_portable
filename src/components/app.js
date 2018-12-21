@@ -6,6 +6,8 @@ import LoginScreen from "./containers/LoginScreen";
 import MainScreen from "./containers/MainScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 
+import LobbyScreen from "./containers/LobbyScreen";
+
 class App extends Component {
   render() {
     switch (this.props.page) {
@@ -15,6 +17,8 @@ class App extends Component {
         return <ProfileScreen/>
       case "login":
         return <LoginScreen/>
+      case "dev": 
+        return <LobbyScreen/>
     }
   }
 }

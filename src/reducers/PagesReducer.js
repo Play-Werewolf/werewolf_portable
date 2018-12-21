@@ -1,5 +1,5 @@
 const initialState = {
-    page: "main"
+    page: "dev"
 };
 
 const PagesReducer = (state = initialState, action) => {
