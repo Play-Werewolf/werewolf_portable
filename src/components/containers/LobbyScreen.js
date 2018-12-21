@@ -8,6 +8,9 @@ class LobbyScreen extends Component {
 
         this.renderPlayerList = this.renderPlayerList.bind(this);
         this.renderSun = this.renderSun.bind(this);
+        this.renderPregameHeader = this.renderPregameHeader.bind(this);
+        this.renderIngameHeader = this.renderIngameHeader.bind(this);
+        this.renderHeader = this.renderHeader.bind(this);
     }
 
     renderPlayerCard(player) {
@@ -41,7 +44,7 @@ class LobbyScreen extends Component {
     renderStartButton() {
         if (this.props.is_host && !this.props.in_game) {
             return (
-                <div style={{ position: "fixed", right: 0, top: 0, marginTop: "1em", marginRight: "0.5em" }}>
+                <div style={{ position: "fixed", right: 0, top: 0, marginTop: "1em", marginRight: "0.5em", zIndex: 10 }}>
                     <button className="ui primary button">Start</button>
                 </div>
             );
@@ -52,20 +55,51 @@ class LobbyScreen extends Component {
     renderSun() {
         if (this.props.in_game) {
             return (
-                <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1.5em", marginLeft: "0.5em" }}>
+                <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1.5em", marginLeft: "0.5em", zIndex: 10 }}>
                     <i className={"ui icon " + (this.props.is_night ? "moon" : "sun")} style={{ fontSize: "2em" }}></i>
                 </div>
             );
         }
     }
 
+    renderPregameHeader() {
+        return (
+            <div style={styles.headerStyle}>
+                Party id:
+                <h1>{this.props.partyId}</h1>
+            </div>
+        );
+    }
+
+    renderIngameHeader() {
+        return (
+            <div style={{...styles.headerStyle, marginLeft: "3em", marginTop: ".5em"}}>
+                <h3>{this.props.message}</h3>
+            </div>
+        )
+    }
+
+    renderHeader() {
+        if (this.props.in_game) {
+            return this.renderIngameHeader();
+        }
+        else {
+            return this.renderPregameHeader();
+        }
+    }
+
     render() {
         const style = this.props.is_night && this.props.in_game ? styles.night : styles.day;
         return (
+            <div>
+            <div style={{ ...style, position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}>&nbsp;</div>
             <div style={{ ...style, position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}>
-                <center>
-                    Party id:
-                    <h1>{this.props.partyId}</h1>
+                <center style={{ ...style, position: "fixed", top: 0, right: 0, left: 0, zIndex: 9 }}>
+                    { this.renderHeader() }
+                </center>
+
+                <center> {/*placeholder*/}
+                    { this.renderHeader() }
                 </center>
 
                 <div className="ui divider"></div>
@@ -78,6 +112,7 @@ class LobbyScreen extends Component {
 
                 { this.renderSun() }
             </div>
+            </div>
         )
     }
 
@@ -89,7 +124,8 @@ const mapStateToProps = (state) => {
         players: state.mp.players,
         is_host: true,
         in_game: true,
-        is_night: false
+        is_night: false,
+        message: "He was attacked by the werewolves."
     };
 };
 
@@ -99,7 +135,10 @@ const styles = {
         color: "royalBlue"
     },
     day: {
-
+        backgroundColor: "#f3f3f3"
+    },
+    headerStyle: {
+        minHeight: "10vh"
     }
 }
 
