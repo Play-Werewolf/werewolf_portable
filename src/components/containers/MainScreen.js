@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
+import { moveTo } from "../../actions/PagesActions";
+
 class MainScreen extends Component {
 
     constructor(props) {
@@ -105,6 +107,10 @@ class MainScreen extends Component {
                     <button className={ "ui button" + (this.state.create_loading ? " loading": "") } onClick={ this.createParty }>Create new party</button>
                     { this.renderError(this.state.create_error) }
                 </div>
+
+                <div style={{ position: "fixed", right: 0, top: 0, marginTop: ".5em", fontSize: "2em" }}>
+                    <i className="cog link icon" onClick={ () => this.props.moveTo("profile") }></i>
+                </div>
             </div>
         );
     }
@@ -117,4 +123,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(MainScreen);
+export default connect(mapStateToProps, { moveTo })(MainScreen);

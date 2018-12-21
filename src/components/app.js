@@ -4,16 +4,24 @@ import { connect } from "react-redux";
 
 import LoginScreen from "./containers/LoginScreen";
 import MainScreen from "./containers/MainScreen";
+import ProfileScreen from "./containers/ProfileScreen";
 
 class App extends Component {
   render() {
-    return <MainScreen/>
+    switch (this.props.page) {
+      case "main":
+        return <MainScreen/>
+      case "profile":
+        return <ProfileScreen/>
+      case "login":
+        return <LoginScreen/>
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    login: state.auth.login
+    page: state.pages.page
   };
 };
 
