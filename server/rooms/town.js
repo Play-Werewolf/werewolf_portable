@@ -16,6 +16,8 @@ module.exports = class TownRoom extends Room {
     }
 
     requestJoin(opts, isNew){
+        console.log('a client joined', opts);
+        return true;
         if(isNew)
         {
             return true;
@@ -48,12 +50,13 @@ module.exports = class TownRoom extends Room {
     }
 
     onJoin (client) {
+        console.log('a client joined', client);
         //sets the player object in the array
         client.playerIndex = Object.keys(this.state.players).length;
         this.state.players[ client.playerIndex ] = new Player(client.NickName, client.playerIndex);
         this.state.idList[client.playerIndex] = client.id;
 
-        if (this.clients.length == this.maxClients) {
+        if (this.state.players.length == this.maxClients) {
             //start a time to do a random move.
             this.chooseRandomTimeout = this.clock.setTimeout(this.chooseRandom.bind(this, client), this.timeout * 1000);
 
@@ -65,6 +68,7 @@ module.exports = class TownRoom extends Room {
     }
 
     onLeave (client){
+        delete this.state.players[ client.playerIndex ];
         for(i = 0; i < Object.keys(this.state.players).length; i ++)
         {
             if(client.playerIndex === this.state.players[i].id)
