@@ -7,6 +7,7 @@ import MainScreen from "./containers/MainScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 
 import LobbyScreen from "./containers/LobbyScreen";
+import SetupScreen from "./containers/SetupScreen";
 
 class App extends Component {
   render() {
@@ -18,7 +19,7 @@ class App extends Component {
       case "login":
         return <LoginScreen/>
       case "dev": 
-        return <LobbyScreen/>
+        return <MainScreen/>
     }
   }
 }

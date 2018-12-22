@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { moveTo } from "../../actions/PagesActions";
+import * as multiplayer from "../../multiplayer";
 
 class MainScreen extends Component {
 
@@ -21,6 +22,11 @@ class MainScreen extends Component {
         this.createParty = this.createParty.bind(this);
         this.partyNotFound = this.partyNotFound.bind(this);
         this.createPartyError = this.createPartyError.bind(this);
+    }
+
+    componentWillMount() {
+        multiplayer.connect();
+        console.log("connecting");
     }
 
     updatePartyId(event) {

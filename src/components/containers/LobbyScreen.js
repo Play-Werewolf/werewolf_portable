@@ -11,6 +11,7 @@ class LobbyScreen extends Component {
         this.renderPregameHeader = this.renderPregameHeader.bind(this);
         this.renderIngameHeader = this.renderIngameHeader.bind(this);
         this.renderHeader = this.renderHeader.bind(this);
+        this.renderDayDiv = this.renderDayDiv.bind(this);
     }
 
     renderPlayerCard(player) {
@@ -44,8 +45,13 @@ class LobbyScreen extends Component {
     renderStartButton() {
         if (this.props.is_host && !this.props.in_game) {
             return (
-                <div style={{ position: "fixed", right: 0, top: 0, marginTop: "1em", marginRight: "0.5em", zIndex: 10 }}>
-                    <button className="ui primary button">Start</button>
+                <div>
+                    <div style={{ position: "fixed", right: 0, top: 0, marginTop: "1em", marginRight: "0.5em", zIndex: 10 }}>
+                        <button className="ui primary button">Start</button>
+                    </div>
+                    <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1em", marginLeft: "0.5em", zIndex: 10 }}>
+                        <button className="ui button">Setup</button>
+                    </div>
                 </div>
             );
         }
@@ -88,10 +94,22 @@ class LobbyScreen extends Component {
         }
     }
 
+    renderDayDiv() {
+        return (
+            <div className="ui container">
+                { this.renderPlayerList() }
+            </div>
+        )
+    }
+
+    renderNightdiv() {
+
+    }
+
     render() {
         const style = this.props.is_night && this.props.in_game ? styles.night : styles.day;
         return (
-            <div>
+            <div id="elid">
             <div style={{ ...style, position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}>&nbsp;</div>
             <div style={{ ...style, position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}>
                 <center style={{ ...style, position: "fixed", top: 0, right: 0, left: 0, zIndex: 9 }}>
@@ -104,13 +122,9 @@ class LobbyScreen extends Component {
 
                 <div className="ui divider"></div>
                 
-                <div className="ui container">
-                    { this.renderPlayerList() }
-                </div>
+                { this.renderDayDiv() }
 
                 { this.renderStartButton() }
-
-                { this.renderSun() }
             </div>
             </div>
         )
@@ -123,8 +137,8 @@ const mapStateToProps = (state) => {
         partyId: state.mp.roomId,
         players: state.mp.players,
         is_host: true,
-        in_game: true,
-        is_night: false,
+        in_game: false,
+        is_night: true,
         message: "He was attacked by the werewolves."
     };
 };
