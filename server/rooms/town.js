@@ -11,20 +11,35 @@ module.exports = class TownRoom extends Room {
         this.setState({
             currentTurn: null,
             players: [],
+            idList: [],
         })
     }
 
-    requestJoin(opts){
+    requestJoin(opts, isNew){
+        if(isNew)
+        {
+            return true;
+        }
+
         //check if room allows same user to log in twice
         if(!this.blockSameUser)
         {
             return true;
         }
         
-        //check if the optional args contains nickname
-        if(!('NickName' in opts))
+         //check if the optional args contains nickname and id
+        if(!('NickName' in opts) || !('ID' in opts))
         {
             return false;
+        }
+
+        //check if client is already connected
+        for(i = 0; i < Object.keys(this.state.players).length; i ++)
+        {
+            if(opts.ID === this.state.idList[i])
+            {
+                return false;
+            }
         }
         
         //check if the user is already in the players list
@@ -36,6 +51,7 @@ module.exports = class TownRoom extends Room {
         //sets the player object in the array
         client.playerIndex = Object.keys(this.state.players).length;
         this.state.players[ client.playerIndex ] = new Player(client.NickName, client.playerIndex);
+        this.state.idList[client.playerIndex] = client.id;
 
         if (this.clients.length == this.maxClients) {
             //start a time to do a random move.
@@ -49,26 +65,19 @@ module.exports = class TownRoom extends Room {
     }
 
     onLeave (client){
-        new_players = [];
-        j = 0;
         for(i = 0; i < Object.keys(this.state.players).length; i ++)
         {
-            j++;
             if(client.playerIndex === this.state.players[i].id)
             {
-                j--;
-            }
-            else
-            {
-                new_players[j] = this.state.players[i];
+                this.state.players.splice(i,1);
+                this.state.idList.splice(i,1);
             }
         }
-        this.state.players = new_players;
         this.CheckWin();
     }
 
     GameStart(){
-        
+        //implement later with this.send(client, { message: "Hello world!" });
     }
 
     CheckWin(){
