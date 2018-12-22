@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { moveTo } from "../../actions/PagesActions";
+
 import * as multiplayer from "../../multiplayer";
+import { getNickname } from "../../auth/Profile";
 
 class MainScreen extends Component {
 
@@ -24,11 +26,6 @@ class MainScreen extends Component {
         this.createPartyError = this.createPartyError.bind(this);
     }
 
-    componentWillMount() {
-        multiplayer.connect();
-        console.log("connecting");
-    }
-
     updatePartyId(event) {
         this.setState({
             partyId: event.target.value
@@ -36,14 +33,24 @@ class MainScreen extends Component {
     }
 
     joinParty() {
+
+        if (getNickname() == "") {
+            this.props.moveTo("profile");
+            return;
+        }
+
         this.setState({
             join_loading: true,
             join_error: null
         });
 
-        setTimeout(() => {
-            this.partyNotFound();
-        }, 2000);
+        window.onJoinError = (err) => {
+            this.setState({
+                join_loading: false,
+                join_error: err
+            });
+        }
+        multiplayer.joinRoom(this.state.partyId);
     }
 
     partyNotFound() {
@@ -54,13 +61,16 @@ class MainScreen extends Component {
     }
 
     createParty() {
+        if (getNickname() == "") {
+            this.props.moveTo("profile");
+            return;
+        }
+
         this.setState({
             create_loading: true,
             create_error: null
         });
-        setTimeout(() => {
-            this.createPartyError();
-        }, 2000);
+        multiplayer.createRoom();
     }
 
     createPartyError() {

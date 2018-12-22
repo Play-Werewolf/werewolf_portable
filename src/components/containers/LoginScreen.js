@@ -11,7 +11,7 @@ class LoginScreen extends Component {
     render() {
         return (
             <center>
-                <Header as="h2">Werewolf</Header>
+                <Header as="h2">Connecting...</Header>
                 <br/><br/><br/>
                 <Button onClick={ () => this.props.login() }>Play</Button>
             </center>

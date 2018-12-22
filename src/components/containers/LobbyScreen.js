@@ -15,13 +15,15 @@ class LobbyScreen extends Component {
     }
 
     renderPlayerCard(player) {
+        var style = player.dead ? styles.dead : styles.alive;
+        var img = player.dead ? "https://i.imgur.com/D4Lko8G.png" : player.img;
         return (
-            <div className="ui fluid card" key={player.id}>
+            <div className="ui fluid card" style={{marginTop: ".4em", marginBottom: ".4em"}} key={player.id}>
                 <div className="image">
-                    <img src={player.img} />
-                </div>
-                <div className="content" style={{ padding: "0.2em" }}>
-                    <b>{player.name}</b>
+                    <img src={img} />
+                    <div style={{ ...style, position: "absolute", "bottom": 0, right: 0, left: 0, textAlign: "center" }}>
+                        {player.name.substr(0, 15)}
+                    </div>
                 </div>
             </div>
         )
@@ -61,7 +63,7 @@ class LobbyScreen extends Component {
     renderSun() {
         if (this.props.in_game) {
             return (
-                <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1.5em", marginLeft: "0.5em", zIndex: 10 }}>
+                <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1em", marginLeft: "0.5em", zIndex: 10 }}>
                     <i className={"ui icon " + (this.props.is_night ? "moon" : "sun")} style={{ fontSize: "2em" }}></i>
                 </div>
             );
@@ -87,7 +89,12 @@ class LobbyScreen extends Component {
 
     renderHeader() {
         if (this.props.in_game) {
-            return this.renderIngameHeader();
+            return (
+                <div>
+                    {this.renderIngameHeader()}
+                    {this.renderSun()}
+                </div>
+            )
         }
         else {
             return this.renderPregameHeader();
@@ -133,12 +140,13 @@ class LobbyScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.mp);
     return {
         partyId: state.mp.roomId,
-        players: state.mp.players,
-        is_host: true,
+        players: state.mp.clients,
+        is_host: state.mp.clients[0].id == window.io.id,
         in_game: false,
-        is_night: true,
+        is_night: false,
         message: "He was attacked by the werewolves."
     };
 };
@@ -152,7 +160,15 @@ const styles = {
         backgroundColor: "#f3f3f3"
     },
     headerStyle: {
-        minHeight: "10vh"
+        
+    },
+    dead: {
+        backgroundColor: "rgba(240,240,240,0.6)",
+        color: "gray"
+    },
+    alive: {
+        color: "white",
+        backgroundColor: "rgba(43,96,222,0.6)"
     }
 }
 

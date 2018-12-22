@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { getNickname, setNickname } from "../../auth/Profile";
 import { moveTo } from "../../actions/PagesActions";
 
+import * as multiplayer from "../../multiplayer";
+
 class ProfileScreen extends Component {
 
     constructor(props) {
@@ -38,6 +40,7 @@ class ProfileScreen extends Component {
         }
         else {
             setNickname(nickname);
+            multiplayer.setNickname(nickname);
             this.props.moveTo("main");
         }
     }

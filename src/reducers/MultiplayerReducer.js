@@ -1,5 +1,5 @@
 const initialState = {
-    roomId: "182736",
+    roomId: null,
     players: [
         {
             id: "182736125",
@@ -51,11 +51,16 @@ const initialState = {
             name: "Kalman",
             img: "https://semantic-ui.com/images/avatar/large/veronika.jpg"
         }
-    ]
+    ],
+    clients: [],
+    connected: false
 };
 
 const MultiplayerReducer = (state = initialState, action) => {
     switch (action.type) {
+        case "UPDATE_MULTIPLAYER":
+        console.log(action);
+            return {...state, ...action.payload};
         default:
             return state;
     }

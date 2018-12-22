@@ -9,24 +9,42 @@ import ProfileScreen from "./containers/ProfileScreen";
 import LobbyScreen from "./containers/LobbyScreen";
 import SetupScreen from "./containers/SetupScreen";
 
+import * as multiplayer from "../multiplayer";
+import { getNickname } from "../auth/Profile";
+
+
 class App extends Component {
+
+  componentDidMount() {
+    multiplayer.init(this.props.dispatch);
+    window.onConnected.push(function() {
+      multiplayer.setNickname(getNickname());
+    })
+  }
+
   render() {
-    switch (this.props.page) {
-      case "main":
-        return <MainScreen/>
-      case "profile":
-        return <ProfileScreen/>
-      case "login":
-        return <LoginScreen/>
-      case "dev": 
-        return <MainScreen/>
+
+    if (!this.props.connected) {
+      return <LoginScreen/>;
     }
+
+    if (this.props.roomId) {
+      return <LobbyScreen/>
+    }
+
+    if (this.props.page == "profile") {
+      return <ProfileScreen/>
+    }
+
+    return <MainScreen/>
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    page: state.pages.page
+    page: state.pages.page,
+    connected: state.mp.connected,
+    roomId: state.mp.roomId
   };
 };
 
