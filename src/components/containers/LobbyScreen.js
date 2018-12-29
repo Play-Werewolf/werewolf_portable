@@ -214,8 +214,7 @@ class LobbyScreen extends Component {
                 { this.renderPlayerList(this.nightActionPlayer) }
                 { this.renderCustomButtons() }
                 </div>
-            ) // TODO: Render here some active player cards
-                                            // And possibly some buttons for veteran, pass, etc
+            )
         }
         else {
             return this.renderBanner("moon");
@@ -262,11 +261,13 @@ class LobbyScreen extends Component {
     }
 
     renderTimer() {
+        var timer = Math.ceil((this.state.timer / 1000) || 0);
+        var timestr = timer >= 60 ? (Math.floor(timer / 60) + ":" + ("0" + (timer % 60)).slice(-2)) : timer.toString();
         return (
             <TimerLbl pose={ this.state.timer ? "visible" : "hidden" } style={{ position: "fixed", bottom: "5%" }}>
                 <div className="ui label big" style={{ backgroundColor: this.props.main_color, color: this.props.secondary_color, textAlign: "center" }}>
                     <i className="time icon" style={{ margin: 0, marginBottom: "4px" }}></i><br/>
-                    { Math.ceil((this.state.timer / 1000) || 0) }
+                    { timestr }
                 </div>
             </TimerLbl>
         )
@@ -384,7 +385,7 @@ const mapStateToProps = (state) => {
         in_game: in_game,
         is_night: is_night,
 
-        message: "He was attacked by the werewolves.",
+        message: state.mp.message,
         phase: state.mp.phase || Phases.LOBBY,
         timer: state.mp.timer,
 
@@ -402,7 +403,7 @@ const styles = {
         backgroundColor: "#f3f3f3"
     },
     headerStyle: {
-        
+        minHeight: "7vh"
     },
     dead: {
         backgroundColor: "rgba(240,240,240,0.6)",
