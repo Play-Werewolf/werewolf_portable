@@ -12,6 +12,7 @@ import SetupScreen from "./containers/SetupScreen";
 import * as multiplayer from "../multiplayer";
 import { getNickname } from "../auth/Profile";
 
+import Modal from "./Modal";
 
 class App extends Component {
 
@@ -22,8 +23,7 @@ class App extends Component {
     })
   }
 
-  render() {
-
+  renderScreen() {
     if (!this.props.connected) {
       return <LoginScreen/>;
     }
@@ -38,6 +38,16 @@ class App extends Component {
 
     return <MainScreen/>
   }
+
+  render() {
+    return (
+      <div>
+      { this.renderScreen() }
+      <Modal/>
+      </div>
+    )
+  }
+    
 }
 
 const mapStateToProps = (state) => {

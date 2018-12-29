@@ -1,6 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { Phases, Roles, RoleNames, RoleImages, RoleMessages } from "../../Game";
+
+import RoleView from "../RoleView";
+import ExecutionView from "../ExecutionView";
+
+import * as multiplayer from "../../multiplayer";
+
+import posed from "react-pose";
+
+const TimerLbl = posed.div({
+    visible: {
+        right: 0,
+        left: ""
+    },
+    hidden: {
+        right: "",
+        left: "100%"
+    }
+});
+
 class LobbyScreen extends Component {
 
     constructor(props) {
@@ -11,14 +31,32 @@ class LobbyScreen extends Component {
         this.renderPregameHeader = this.renderPregameHeader.bind(this);
         this.renderIngameHeader = this.renderIngameHeader.bind(this);
         this.renderHeader = this.renderHeader.bind(this);
-        this.renderDayDiv = this.renderDayDiv.bind(this);
+        this.renderMainDiv = this.renderMainDiv.bind(this);
+
+        this.state = {
+            timer: null
+        };
     }
 
-    renderPlayerCard(player) {
+    componentWillMount() {
+        this.timer = setInterval(() => {
+            var time = this.props.timer ? Math.max(0, this.props.timer - new Date().getTime()) : null;
+            if (time != this.state.timer)
+                this.setState({timer: time});
+        }, 150);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+    renderPlayerCard(player, onclick) {
+        console.log(player);
         var style = player.dead ? styles.dead : styles.alive;
-        var img = player.dead ? "https://i.imgur.com/D4Lko8G.png" : player.img;
+        var outline = player.id == this.props.network_id ? {boxShadow: "0 0 0 3pt gold", borderRadius: "2px"} : {};
+        var img = player.dead ? "https://i.imgur.com/D4Lko8G.png" : player.image;
         return (
-            <div className="ui fluid card" style={{marginTop: ".4em", marginBottom: ".4em"}} key={player.id}>
+            <div className="ui fluid card" onClick={ () => onclick(player) } style={{...outline, marginTop: ".4em", marginBottom: ".4em"}} key={player.id}>
                 <div className="image">
                     <img src={img} />
                     <div style={{ ...style, position: "absolute", "bottom": 0, right: 0, left: 0, textAlign: "center" }}>
@@ -29,11 +67,11 @@ class LobbyScreen extends Component {
         )
     }
 
-    renderPlayerList() {
-        var col1 = this.props.players.filter((_, i) => i % 4 == 0).map(x => this.renderPlayerCard(x));
-        var col2 = this.props.players.filter((_, i) => i % 4 == 1).map(x => this.renderPlayerCard(x));
-        var col3 = this.props.players.filter((_, i) => i % 4 == 2).map(x => this.renderPlayerCard(x));
-        var col4 = this.props.players.filter((_, i) => i % 4 == 3).map(x => this.renderPlayerCard(x));
+    renderPlayerList(onclick) {
+        var col1 = this.props.players.filter((_, i) => i % 4 == 0).map(x => this.renderPlayerCard(x, onclick));
+        var col2 = this.props.players.filter((_, i) => i % 4 == 1).map(x => this.renderPlayerCard(x, onclick));
+        var col3 = this.props.players.filter((_, i) => i % 4 == 2).map(x => this.renderPlayerCard(x, onclick));
+        var col4 = this.props.players.filter((_, i) => i % 4 == 3).map(x => this.renderPlayerCard(x, onclick));
         return (
             <div className="ui four column grid">            
                 <div className="ui column" style={{ padding: "0.2rem" }}>{ col1 }</div>
@@ -49,7 +87,7 @@ class LobbyScreen extends Component {
             return (
                 <div>
                     <div style={{ position: "fixed", right: 0, top: 0, marginTop: "1em", marginRight: "0.5em", zIndex: 10 }}>
-                        <button className="ui primary button">Start</button>
+                        <button style={{ backgroundColor: "#ac6635", color: "#f3f3f3" }} className="ui button" onClick={ this.sendStartGame }>Start</button>
                     </div>
                     <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1em", marginLeft: "0.5em", zIndex: 10 }}>
                         <button className="ui button">Setup</button>
@@ -80,9 +118,20 @@ class LobbyScreen extends Component {
     }
 
     renderIngameHeader() {
+        var msg = ({
+            "ROLE_SELECTION": "ROLES LOT...",
+            "PRE_GAME": "Get ready to play...",
+            "NIGHT_TRANSITION": "The night shall now begin...",
+            "NIGHT": "Night",
+            "DAY_TRANSITION": "The day shall now begin...",
+            "DISCUSSION": "Discussion..."
+        })[this.props.phase] || this.props.message;
+
+        if (this.props.player.active && this.props.phase == Phases.NIGHT) 
+            msg = RoleMessages[this.props.player.role];
         return (
             <div style={{...styles.headerStyle, marginLeft: "3em", marginTop: ".5em"}}>
-                <h3>{this.props.message}</h3>
+                <h3>{msg}</h3>
             </div>
         )
     }
@@ -101,16 +150,145 @@ class LobbyScreen extends Component {
         }
     }
 
-    renderDayDiv() {
+    renderRoleSelection() {
+        return <RoleView role={ this.props.player.role }/>
+    }
+
+    renderBanner(icon) {
         return (
-            <div className="ui container">
-                { this.renderPlayerList() }
+            <center>
+                <div style={{ position: "block", height: "20vh" }}>&nbsp;</div>
+                <i className={"massive icon " + icon}></i>
+            </center>
+        )
+    }
+
+    kickPlayer(p) {
+        if (this.props.is_host) {
+            console.log(p)
+            multiplayer.kick(p.id);
+        }
+    }
+
+    renderMainDiv() {
+        var { phase } = this.props;
+
+        if (phase == Phases.LOBBY) {
+            return this.renderPlayerList((p) => this.kickPlayer(p));
+        }
+        else if (phase == Phases.ROLE_SELECTION) {
+            return this.renderRoleSelection();
+        }
+        else if (phase == Phases.PRE_GAME ||
+                 phase == Phases.DISCUSSION ||
+                 phase == Phases.DAY_CALLOUTS) {
+            return this.renderPlayerList();
+        }
+        else if (phase == Phases.NIGHT_TRANSITION) {
+            return this.renderBanner("moon");
+        }
+        else if (phase == Phases.NIGHT) {
+            return this.renderNightdiv();
+        }
+        else if (phase == Phases.DAY_TRANSITION) {
+            return this.renderBanner("sun");
+        }
+        else if (phase == Phases.TRIAL) {
+            return this.renderTrial();
+        }
+        else if (phase == Phases.EXECUTION) {
+            return this.renderExecution();
+        }
+    }
+
+    // Sends a player payload night action
+    nightActionPlayer(player) {
+        multiplayer.nightAction(player.id);
+    }
+
+    renderNightdiv() {
+        console.log("Tonight, we are", this.props.player.active);
+        if (this.props.player.active) {
+            return (
+                <div>
+                { this.renderPlayerList(this.nightActionPlayer) }
+                { this.renderCustomButtons() }
+                </div>
+            ) // TODO: Render here some active player cards
+                                            // And possibly some buttons for veteran, pass, etc
+        }
+        else {
+            return this.renderBanner("moon");
+        }
+    }
+
+    renderGuiltyInno() {
+        return (
+            <div className="extra content">
+                <div className="ui two buttons">
+                    <div className="ui basic red button">Execute</div>
+                    <div className="ui basic green button">Free</div>
+                </div>
             </div>
         )
     }
 
-    renderNightdiv() {
+    renderTrial() {
+        return (
+            <center>
+                <div className="ui card">
+                    <div className="image">
+                        <img src={ this.props.player_on_stand.img }/>
+                    </div>
+                    <div className="content">
+                        <div className="header">
+                            { this.props.player_on_stand.name }
+                        </div>
+                    </div>
+                    { this.renderGuiltyInno() }
+                </div>
+            </center>
+        )
+    }
 
+    renderExecution() {
+        return (
+           <ExecutionView player={this.props.player_on_stand} />
+        )
+    }
+
+    sendStartGame() {
+        multiplayer.startGame();
+    }
+
+    renderTimer() {
+        return (
+            <TimerLbl pose={ this.state.timer ? "visible" : "hidden" } style={{ position: "fixed", bottom: "5%" }}>
+                <div className="ui label big" style={{ backgroundColor: this.props.main_color, color: this.props.secondary_color, textAlign: "center" }}>
+                    <i className="time icon" style={{ margin: 0, marginBottom: "4px" }}></i><br/>
+                    { Math.ceil((this.state.timer / 1000) || 0) }
+                </div>
+            </TimerLbl>
+        )
+    }
+
+    renderCustomButtons() {
+        return (
+            <center>
+                <br/>
+                { this.customButtonList() }
+            </center>
+        )
+    }
+
+    customButtonList() {
+        var buttons = [["Pass", false]];
+        return buttons.map(b => (
+            <button key={ b[0] } className="ui primary button"
+                onClick={ () => multiplayer.nightAction(b[1]) }>
+                { b[0] }
+            </button>
+        ));
     }
 
     render() {
@@ -129,9 +307,12 @@ class LobbyScreen extends Component {
 
                 <div className="ui divider"></div>
                 
-                { this.renderDayDiv() }
-
+                <div className="ui container">
+                    { this.renderMainDiv() }
+                </div>
                 { this.renderStartButton() }
+
+                { this.renderTimer() }
             </div>
             </div>
         )
@@ -141,13 +322,74 @@ class LobbyScreen extends Component {
 
 const mapStateToProps = (state) => {
     console.log(state.mp);
+    var __players = [
+        {"id":"182736125","role":"VILLAGER","name":"Yotam","img":"https://semantic-ui.com/images/avatar/small/steve.jpg"},{"id":"6345234318","name":"Koren","img":"https://semantic-ui.com/images/avatar2/small/matthew.png"},{"id":"34523657445","name":"Ron","img":"https://semantic-ui.com/images/avatar2/large/rachel.png"},{"id":"09345342314","name":"Shai","img":"https://semantic-ui.com/images/avatar2/small/elyse.png"},{"id":"34543657445","name":"Shir","img":"https://semantic-ui.com/images/avatar/large/elliot.jpg"},{"id":"09394342314","dead":true,"name":"Daniel","img":"https://semantic-ui.com/images/avatar/large/daniel.jpg"},{"id":"34543657245","name":"Shaked","img":"https://semantic-ui.com/images/avatar2/large/molly.png"},{"id":"09394372314","name":"Or","img":"https://semantic-ui.com/images/avatar/large/jenny.jpg"},{"id":"34543657449","name":"Diana","img":"https://semantic-ui.com/images/avatar/large/helen.jpg"},{"id":"19394342314","name":"Kalman","img":"https://semantic-ui.com/images/avatar/large/veronika.jpg"}
+    ];
+    
+    // var phase = Phases.LOBBY;
+    // var { roomId, clients, message, player_on_stand, id } = state.mp;
+    // console.log("Clients ", clients);
+    // console.log("Phase ", phase)
+    // var me = clients.filter(x => x.id == "182736125")[0];
+
+    // return {
+    //     partyId: roomId,
+    //     players: clients,
+    //     is_host: clients.length > 0 && clients[0].id == me.id,
+    //     in_game: ~([
+    //         Phases.NIGHT_TRANSITION, Phases.NIGHT,
+    //         Phases.DAY_TRANSITION, Phases.DAY_CALLOUTS, Phases.DISCUSSION,
+    //         Phases.TRIAL, Phases.EXECUTION,
+    //         Phases.GAME_OVER
+    //     ]).indexOf(phase),
+    //     is_night: ~([
+    //         Phases.NIGHT_TRANSITION, Phases.NIGHT
+    //     ]).indexOf(phase),
+    //     phase: phase,
+    //     message: message,
+    //     network_id: id,
+    //     player: me,
+    //     player_on_stand: player_on_stand
+    // }
+
+    var in_game = !!~([
+        Phases.ROLE_SELECTION, Phases.PRE_GAME,
+        Phases.NIGHT_TRANSITION, Phases.NIGHT,
+        Phases.DAY_TRANSITION, Phases.DAY_CALLOUTS, Phases.DISCUSSION,
+        Phases.TRIAL, Phases.EXECUTION,
+        Phases.GAME_OVER
+    ]).indexOf(state.mp.phase);
+    
+    var is_night = !!~([
+        Phases.NIGHT_TRANSITION, Phases.NIGHT,
+    ]).indexOf(state.mp.phase)
+
+    var players = in_game ? state.mp.players : state.mp.clients
+
+    var me = players.filter(x => x.id == state.mp.id);
+    if (me.length > 0)
+        me = me[0];
+    else
+        me = null;
+
+    console.log("Role ", me.role);
+
     return {
         partyId: state.mp.roomId,
-        players: state.mp.clients,
-        is_host: state.mp.clients[0].id == window.io.id,
-        in_game: false,
-        is_night: false,
-        message: "He was attacked by the werewolves."
+        players: players,
+        player: me,
+        network_id: state.mp.id || null,
+
+        is_host: state.mp.clients.length > 0 && state.mp.clients[0].id == state.mp.id,
+        in_game: in_game,
+        is_night: is_night,
+
+        message: "He was attacked by the werewolves.",
+        phase: state.mp.phase || Phases.LOBBY,
+        timer: state.mp.timer,
+
+        main_color: is_night ? "royalblue" : "#ac6635",
+        secondary_color: is_night ? "#111" : "#f3f3f3"
     };
 };
 
