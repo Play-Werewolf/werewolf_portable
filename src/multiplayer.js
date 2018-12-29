@@ -3,6 +3,7 @@ import openSocket from "socket.io-client";
 import React from "react";
 
 import speak from "./Voice";
+import NotificationView from "./components/NotificationsView";
 
 var dispatch = null;
 
@@ -81,23 +82,38 @@ export const init = (_dispatch) => {
         let _nightAction = nightAction;
         Modal.open(
             <center>
-            <h3>
-                You sense that your target is...
-            </h3>
-            <div style={{display: "block", height: "100%"}}>&nbsp;</div>
-            <h1>
-                { data.seer_result == "GOOD" ? "Good" : "Evil" }
-            </h1>
-            <button className="ui button" 
-                style={{ backgroundColor: "#ac6635", position: "absolute", bottom: "20px", right: "20px" }}
-                onClick={() => {
-                    window.Modal.close();
-                    _nightAction(true);
-                }}>
-                Ok
-            </button>
-        </center>
+                <h3>
+                    You sense that your target is...
+                </h3>
+                <div style={{display: "block", height: "100%"}}>&nbsp;</div>
+                <h1>
+                    { data.seer_result == "GOOD" ? "Good" : "Evil" }
+                </h1>
+                <button className="ui button" 
+                    style={{ backgroundColor: "#ac6635", position: "absolute", bottom: "20px", right: "20px" }}
+                    onClick={() => {
+                        window.Modal.close();
+                        _nightAction(true);
+                    }}>
+                    Ok
+                </button>
+            </center>
         )
+    });
+
+    window.io.on("open_messages", function(data) {
+        window.Modal.open(
+            <div>
+                <NotificationView messages={data}/>
+                <button className="ui button" 
+                    style={{ backgroundColor: "#ac6635", position: "absolute", bottom: "20px", right: "20px" }}
+                    onClick={() => {
+                        window.Modal.close();
+                    }}>
+                    Ok
+                </button>
+            </div>
+        );
     });
 };
 
@@ -123,4 +139,8 @@ export const kick = (player) => {
 
 export const nightAction = (payload) => {
     action("night_action", payload);
+};
+
+export const setVote = (player) => {
+    action("set_vote", player);
 };

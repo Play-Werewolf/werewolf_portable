@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import posed from "react-pose";
+import NotificationView from "./NotificationsView";
 
 const PosedModal = posed.div({
     open: {
@@ -116,3 +117,7 @@ const styles = {
 };
 
 export default Modal;
+
+window.xx = () => {
+    
+};

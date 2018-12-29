@@ -49,29 +49,63 @@ class LobbyScreen extends Component {
     componentWillUnmount() {
         clearInterval(this.timer);
     }
+    
+    makeBlameDiv(txt) {
+        return (
+            <div>
+                <strong style={{ color: "#f00", borderRadius: "10px", padding: "2px", backgroundColor: "black" }}>
+                    🡆 {txt}
+                </strong>
+            </div>
+        )
+    }
 
-    renderPlayerCard(player, onclick) {
-        console.log(player);
+    renderVotesPanel(votes, highlighted) {
+        return (
+            <div style={{ 
+                position: "absolute", 
+                top: 0, left: 0, 
+                borderBottomRightRadius: "10px", 
+                padding: "5px", 
+                backgroundColor: "rgba(255, 0, 0, 0.8)", 
+                color: "white", 
+                border: highlighted ? "3px solid gold" : "", borderLeft: "", borderTop: "" }}>
+                { votes }
+            </div>
+        );
+    }
+
+    renderPlayerCard(player, options = {}) {
+
+        var onclick = options["onclick"] || (()=>0);
+        var votes = options["votes"] ? options["votes"](player) : 0;
+        console.log(votes);
+
         var style = player.dead ? styles.dead : styles.alive;
         var outline = player.id == this.props.network_id ? {boxShadow: "0 0 0 3pt gold", borderRadius: "2px"} : {};
         var img = player.dead ? "https://i.imgur.com/D4Lko8G.png" : player.image;
+        
         return (
             <div className="ui fluid card" onClick={ () => onclick(player) } style={{...outline, marginTop: ".4em", marginBottom: ".4em"}} key={player.id}>
                 <div className="image">
                     <img src={img} />
-                    <div style={{ ...style, position: "absolute", "bottom": 0, right: 0, left: 0, textAlign: "center" }}>
-                        {player.name.substr(0, 15)}
+                    <div style={{ position: "absolute", "bottom": 0, right: 0, left: 0, textAlign: "center" }}>
+                        { /*blame ? this.makeBlameDiv(blame) : null*/ }    
+                        <div style={{ ...style, width: "100%" }}>
+                            {player.name.substr(0, 15)}
+                        </div>
                     </div>
+                    { votes ? this.renderVotesPanel(votes, this.props.player.vote == player.id) : null}
                 </div>
             </div>
         )
     }
 
-    renderPlayerList(onclick) {
-        var col1 = this.props.players.filter((_, i) => i % 4 == 0).map(x => this.renderPlayerCard(x, onclick));
-        var col2 = this.props.players.filter((_, i) => i % 4 == 1).map(x => this.renderPlayerCard(x, onclick));
-        var col3 = this.props.players.filter((_, i) => i % 4 == 2).map(x => this.renderPlayerCard(x, onclick));
-        var col4 = this.props.players.filter((_, i) => i % 4 == 3).map(x => this.renderPlayerCard(x, onclick));
+    renderPlayerList(options) {
+        var col1 = this.props.players.filter((_, i) => i % 4 == 0).map(x => this.renderPlayerCard(x, options));
+        var col2 = this.props.players.filter((_, i) => i % 4 == 1).map(x => this.renderPlayerCard(x, options));
+        var col3 = this.props.players.filter((_, i) => i % 4 == 2).map(x => this.renderPlayerCard(x, options));
+        var col4 = this.props.players.filter((_, i) => i % 4 == 3).map(x => this.renderPlayerCard(x, options));
         return (
             <div className="ui four column grid">            
                 <div className="ui column" style={{ padding: "0.2rem" }}>{ col1 }</div>
@@ -174,13 +208,15 @@ class LobbyScreen extends Component {
         var { phase } = this.props;
 
         if (phase == Phases.LOBBY) {
-            return this.renderPlayerList((p) => this.kickPlayer(p));
+            return this.renderPlayerList({
+                onclick: ((p) => this.kickPlayer(p)),
+                blame: "Arad"
+            });
         }
         else if (phase == Phases.ROLE_SELECTION) {
             return this.renderRoleSelection();
         }
         else if (phase == Phases.PRE_GAME ||
-                 phase == Phases.DISCUSSION ||
                  phase == Phases.DAY_CALLOUTS) {
             return this.renderPlayerList();
         }
@@ -192,6 +228,12 @@ class LobbyScreen extends Component {
         }
         else if (phase == Phases.DAY_TRANSITION) {
             return this.renderBanner("sun");
+        }
+        else if (phase == Phases.DISCUSSION) {
+            return this.renderPlayerList({
+                onclick: ((player) => multiplayer.setVote(player.id)),
+                votes: ((player) => this.props.players.filter(x => x.vote == player.id).length)
+            });
         }
         else if (phase == Phases.TRIAL) {
             return this.renderTrial();
