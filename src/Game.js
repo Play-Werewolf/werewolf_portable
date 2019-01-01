@@ -1,5 +1,5 @@
 
-const dict = function(){
+export const dict = function(){
     var di = {};
     for (var i = 0; i < arguments.length; i++) {
         di[arguments[i][0]] = arguments[i][1];

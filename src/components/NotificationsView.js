@@ -12,6 +12,12 @@ class NotificationView extends Component {
         this.btnClick = this.btnClick.bind(this);
     }
 
+    componentWillMount() {
+        this.setState({
+            shown: false
+        })
+    }
+
     renderMsg(msgTxt, id) {
         return (
             <div key={ id } className="ui floating message">

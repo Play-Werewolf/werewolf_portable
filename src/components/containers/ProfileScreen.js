@@ -2,10 +2,22 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
-import { getNickname, setNickname } from "../../auth/Profile";
+import { getNickname, setNickname, setColor, getColor, getAvatar, setAvatar } from "../../auth/Profile";
 import { moveTo } from "../../actions/PagesActions";
 
 import * as multiplayer from "../../multiplayer";
+import { SquareImage } from "../SquareImage";
+
+const colors = [
+    "#87ceeb", // light blue
+    "#eb87ce", // pink
+    "#afcd38", // light green
+    "#737dff", // dark blue
+    "#ff737d", // red
+    "#cda138", // brown
+    "#cd38af", // purple
+    "#ffff66", // yellow
+]
 
 class ProfileScreen extends Component {
 
@@ -13,7 +25,10 @@ class ProfileScreen extends Component {
         super(props);
 
         this.state = {
-            nickname: ""
+            nickname: "",
+            color: "skyblue",
+            avatarOptions: [],
+            avatar: ""
         };
 
         this.nicknameChanged = this.nicknameChanged.bind(this);
@@ -23,8 +38,19 @@ class ProfileScreen extends Component {
 
     componentWillMount() {
         this.setState({
-            nickname: getNickname()
+            nickname: getNickname(),
+            color: getColor(),
+            avatar: getAvatar()
         });
+
+        window.io.off("bitmoji");
+        window.io.on("bitmoji", (data) => {
+            console.log(data);
+            this.setState({
+                avatarOptions: data
+            });
+        });
+        window.io.emit("bitmoji");
     }
 
     nicknameChanged(event) {
@@ -34,19 +60,71 @@ class ProfileScreen extends Component {
     }
 
     save() {
-        const { nickname } = this.state;
+        const { nickname, color, avatar } = this.state;
         if (nickname === "") {
             alert("Nickname can't be empty");
         }
         else {
             setNickname(nickname);
-            multiplayer.setNickname(nickname);
+            setColor(color);
+            setAvatar(avatar);
+            multiplayer.setDetails({
+                nickname: nickname,
+                color: color,
+                avatar: avatar
+            });
             this.props.moveTo("main");
         }
     }
 
     discard() {
         this.props.moveTo("main");
+    }
+
+    renderBtnColor(color) {
+        return (
+            <button key={color} className={"circular ui icon button"} style={{ backgroundColor: color }}
+                onClick={ () => this.setState({color: color}) }>
+                <i className={"icon" + (this.state.color == color ? " circle" : "")}></i>
+            </button>
+        )
+    }
+
+    setAvatar(a) {
+        this.setState({
+            avatar: a
+        });
+        window.Modal.close();
+    }
+
+    renderCards() {
+        return this.state.avatarOptions.map(x => (
+            <div key={x} style={{width: "25%"}} onClick={ () => this.setAvatar(x) }>
+                <img src={x} style={{ maxWidth: "90%", maxHeight: "90%" }} />
+            </div>
+        ));
+    }
+
+    avatarSelection() {
+        window.Modal.open(
+            <div>
+                <center><h3>Select your avatar</h3></center>
+
+                <br/>
+
+                <div className="ui four cards" style={{ overflowY : "scroll", maxHeight: "70vh", padding: "20px" }}>
+                    { this.renderCards() }
+                </div>
+
+
+                <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>
+                    <button className="ui button" 
+                        onClick={() => Modal.close()}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        )
     }
 
     render() {
@@ -63,6 +141,15 @@ class ProfileScreen extends Component {
                         <input type="text" placeholder="Your nickname" value={this.state.nickname} onChange={this.nicknameChanged} />
                     </div>
                     <br/><br/>
+
+                    <span style={ styles.txt }>Color</span><br/>
+                    { colors.map(x => this.renderBtnColor(x)) }
+                    <br/><br/>
+
+                    <span style={ styles.txt }>Avatar <i>(Click to change)</i></span><br/><br/>
+                    <center><img style={{ height: "20vh" }} src={ this.state.avatar } onClick={this.avatarSelection.bind(this)}/></center>
+                    <br/><br/>
+
                     <div style={{ float: "right" }}>
                         <button className="ui primary button" onClick={this.save}>Save</button>
                         <button className="ui button" onClick={this.discard}>Discard</button>

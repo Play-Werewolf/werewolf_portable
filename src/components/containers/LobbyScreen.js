@@ -9,6 +9,8 @@ import ExecutionView from "../ExecutionView";
 import * as multiplayer from "../../multiplayer";
 
 import posed from "react-pose";
+import MusicPlayer from "../MusicPlayer";
+import { SquareImage } from "../SquareImage";
 
 const TimerLbl = posed.div({
     visible: {
@@ -76,18 +78,19 @@ class LobbyScreen extends Component {
     }
 
     renderPlayerCard(player, options = {}) {
+        console.log(player);
 
         var onclick = options["onclick"] || (()=>0);
         var votes = options["votes"] ? options["votes"](player) : 0;
 
         var style = player.dead ? styles.dead : styles.alive;
         var outline = player.id == this.props.network_id ? {boxShadow: "0 0 0 3pt gold", borderRadius: "2px"} : {};
-        var img = player.dead ? "https://i.imgur.com/D4Lko8G.png" : player.image;
+        var img = player.dead ? "https://www.freeiconspng.com/uploads/skull-and-crossbones-png-3.png" : player.image;
         
         return (
             <div className="ui fluid card" onClick={ () => onclick(player) } style={{...outline, marginTop: ".4em", marginBottom: ".4em"}} key={player.id}>
                 <div className="image">
-                    <img src={img} />
+                    <SquareImage src={img} color={player.dead ? "transparent" : player.color} />
                     <div style={{ position: "absolute", "bottom": 0, right: 0, left: 0, textAlign: "center" }}>
                         { /*blame ? this.makeBlameDiv(blame) : null*/ }    
                         <div style={{ ...style, width: "100%" }}>
@@ -158,7 +161,8 @@ class LobbyScreen extends Component {
             "NIGHT": "Night",
             "DAY_TRANSITION": "The day shall now begin...",
             "DISCUSSION": "Discussion...",
-            "EXECUTION": "Execution!"
+            "EXECUTION": "Execution!",
+            "GAME_OVER": "Game over!"
         })[this.props.phase] || this.props.message;
 
         if (this.props.player.active && this.props.phase == Phases.NIGHT) 
@@ -362,6 +366,13 @@ class LobbyScreen extends Component {
         ));
     }
 
+    renderMusic() {
+        if (this.props.is_host) {
+            console.log("Rendering music");
+            return <MusicPlayer phase={ this.props.phase }/>
+        }
+    }
+
     render() {
         const style = this.props.is_night && this.props.in_game ? styles.night : styles.day;
         return (
@@ -384,6 +395,8 @@ class LobbyScreen extends Component {
                 { this.renderStartButton() }
 
                 { this.renderTimer() }
+
+                { this.renderMusic() }
             </div>
             </div>
         )

@@ -125,8 +125,8 @@ export const joinRoom = (roomId) => {
     window.io.emit("join", roomId);
 };
 
-export const setNickname = (nickname) => {
-    window.io.emit("nickname", nickname);
+export const setDetails = (details) => {
+    window.io.emit("details", details);
 };
 
 export const startGame = () => {

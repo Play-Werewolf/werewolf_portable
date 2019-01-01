@@ -10,7 +10,7 @@ import LobbyScreen from "./containers/LobbyScreen";
 import SetupScreen from "./containers/SetupScreen";
 
 import * as multiplayer from "../multiplayer";
-import { getNickname } from "../auth/Profile";
+import { getNickname, getColor, getAvatar } from "../auth/Profile";
 
 import Modal from "./Modal";
 
@@ -19,7 +19,11 @@ class App extends Component {
   componentDidMount() {
     multiplayer.init(this.props.dispatch);
     window.onConnected.push(function() {
-      multiplayer.setNickname(location.hash.substr(1) || getNickname());
+      multiplayer.setDetails({
+        nickname: location.hash.substr(1) || getNickname(),
+        color: getColor(),
+        avatar: getAvatar()
+      });
     })
   }
 
