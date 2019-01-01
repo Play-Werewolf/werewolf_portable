@@ -69,7 +69,7 @@ class LobbyScreen extends Component {
                 padding: "5px", 
                 backgroundColor: "rgba(255, 0, 0, 0.8)", 
                 color: "white", 
-                border: highlighted ? "3px solid gold" : "", borderLeft: "", borderTop: "" }}>
+                border: (highlighted ? "3px solid gold" : "3px solid red"), borderLeft: "", borderTop: "" }}>
                 { votes }
             </div>
         );
@@ -79,7 +79,6 @@ class LobbyScreen extends Component {
 
         var onclick = options["onclick"] || (()=>0);
         var votes = options["votes"] ? options["votes"](player) : 0;
-        console.log(votes);
 
         var style = player.dead ? styles.dead : styles.alive;
         var outline = player.id == this.props.network_id ? {boxShadow: "0 0 0 3pt gold", borderRadius: "2px"} : {};
@@ -158,7 +157,8 @@ class LobbyScreen extends Component {
             "NIGHT_TRANSITION": "The night shall now begin...",
             "NIGHT": "Night",
             "DAY_TRANSITION": "The day shall now begin...",
-            "DISCUSSION": "Discussion..."
+            "DISCUSSION": "Discussion...",
+            "EXECUTION": "Execution!"
         })[this.props.phase] || this.props.message;
 
         if (this.props.player.active && this.props.phase == Phases.NIGHT) 
@@ -199,9 +199,25 @@ class LobbyScreen extends Component {
 
     kickPlayer(p) {
         if (this.props.is_host) {
-            console.log(p)
             multiplayer.kick(p.id);
         }
+    }
+
+    renderGameOver() {
+
+        var msgs = {
+            "WEREWOLVES": "Werewolves Win!",
+            "VILLAGE": "Village Wins!",
+            "DRAW": "Wipeout!",
+            "NEUTRAL": "Neutral Players Win!"
+        };
+
+        return (
+            <center>
+                <div style={{ position: "block", height: "20vh" }}>&nbsp;</div>
+                <h1>{ msgs[this.props.winning_faction] }</h1>
+            </center>
+        )
     }
 
     renderMainDiv() {
@@ -241,6 +257,9 @@ class LobbyScreen extends Component {
         else if (phase == Phases.EXECUTION) {
             return this.renderExecution();
         }
+        else if (phase == Phases.GAME_OVER) {
+            return this.renderGameOver();
+        }
     }
 
     // Sends a player payload night action
@@ -249,11 +268,10 @@ class LobbyScreen extends Component {
     }
 
     renderNightdiv() {
-        console.log("Tonight, we are", this.props.player.active);
         if (this.props.player.active) {
             return (
                 <div>
-                { this.renderPlayerList(this.nightActionPlayer) }
+                { this.renderPlayerList({onclick: this.nightActionPlayer}) }
                 { this.renderCustomButtons() }
                 </div>
             )
@@ -263,23 +281,33 @@ class LobbyScreen extends Component {
         }
     }
 
+    send_execute() {
+        multiplayer.trialGuilty();
+    }
+
+    send_free() {
+        multiplayer.trialInnocent();
+    }
+
     renderGuiltyInno() {
-        return (
-            <div className="extra content">
-                <div className="ui two buttons">
-                    <div className="ui basic red button">Execute</div>
-                    <div className="ui basic green button">Free</div>
+        if (this.props.is_host)
+            return (
+                <div className="extra content">
+                    <div className="ui two buttons">
+                        <div className="ui basic red button" onClick={ this.send_execute }>Execute</div>
+                        <div className="ui basic green button" onClick={ this.send_free }>Free</div>
+                    </div>
                 </div>
-            </div>
-        )
+            )
     }
 
     renderTrial() {
+        console.log(this.props.player_on_stand);
         return (
             <center>
                 <div className="ui card">
                     <div className="image">
-                        <img src={ this.props.player_on_stand.img }/>
+                        <img src={ this.props.player_on_stand.image }/>
                     </div>
                     <div className="content">
                         <div className="header">
@@ -364,7 +392,6 @@ class LobbyScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.mp);
     var __players = [
         {"id":"182736125","role":"VILLAGER","name":"Yotam","img":"https://semantic-ui.com/images/avatar/small/steve.jpg"},{"id":"6345234318","name":"Koren","img":"https://semantic-ui.com/images/avatar2/small/matthew.png"},{"id":"34523657445","name":"Ron","img":"https://semantic-ui.com/images/avatar2/large/rachel.png"},{"id":"09345342314","name":"Shai","img":"https://semantic-ui.com/images/avatar2/small/elyse.png"},{"id":"34543657445","name":"Shir","img":"https://semantic-ui.com/images/avatar/large/elliot.jpg"},{"id":"09394342314","dead":true,"name":"Daniel","img":"https://semantic-ui.com/images/avatar/large/daniel.jpg"},{"id":"34543657245","name":"Shaked","img":"https://semantic-ui.com/images/avatar2/large/molly.png"},{"id":"09394372314","name":"Or","img":"https://semantic-ui.com/images/avatar/large/jenny.jpg"},{"id":"34543657449","name":"Diana","img":"https://semantic-ui.com/images/avatar/large/helen.jpg"},{"id":"19394342314","name":"Kalman","img":"https://semantic-ui.com/images/avatar/large/veronika.jpg"}
     ];
@@ -432,7 +459,11 @@ const mapStateToProps = (state) => {
         timer: state.mp.timer,
 
         main_color: is_night ? "royalblue" : "#ac6635",
-        secondary_color: is_night ? "#111" : "#f3f3f3"
+        secondary_color: is_night ? "#111" : "#f3f3f3",
+
+        player_on_stand: state.mp.player_on_stand,
+
+        winning_faction: state.mp.winning_faction
     };
 };
 

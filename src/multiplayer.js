@@ -144,3 +144,11 @@ export const nightAction = (payload) => {
 export const setVote = (player) => {
     action("set_vote", player);
 };
+
+export const trialGuilty = () => {
+    action("trial_guilty");
+};
+
+export const trialInnocent = () => {
+    action("trial_innocent");
+};

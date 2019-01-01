@@ -19,7 +19,7 @@ class App extends Component {
   componentDidMount() {
     multiplayer.init(this.props.dispatch);
     window.onConnected.push(function() {
-      multiplayer.setNickname(getNickname());
+      multiplayer.setNickname(location.hash.substr(1) || getNickname());
     })
   }
 

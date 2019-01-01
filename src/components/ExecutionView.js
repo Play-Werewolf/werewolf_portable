@@ -11,7 +11,7 @@ var TriedImage = posed.img({
     hidden: {
         top: "100%",
         transition: {
-            duration: 1000
+            duration: 500
         }
     }
 })
@@ -24,6 +24,8 @@ class ExecutionView extends Component {
         this.state = {
             imgshown: "visible"
         };
+
+        console.log("Creating an execution view", props);
     }
 
     componentDidMount() {
@@ -41,12 +43,15 @@ class ExecutionView extends Component {
     }
 
     render() {
+
+        var graveStyle = this.state.imgshown ? { opacity: 1 } : { opacity: 0 };
+
         return (
             <center>
                 <div className="ui card">
                     <div className="image" style={{overflow: "hidden"}}>
-                        <img src={ "https://i.imgur.com/D4Lko8G.png" }/>
-                        <TriedImage src={ this.props.player.img } style={styles.overlapping}
+                        <img src={ "https://i.imgur.com/D4Lko8G.png" } style={graveStyle}/>
+                        <TriedImage src={ this.props.player.image } style={styles.overlapping}
                             pose={ this.state.imgshown }/>
                     </div>
                     <div className="content">
