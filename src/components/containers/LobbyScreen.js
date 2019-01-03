@@ -195,7 +195,7 @@ class LobbyScreen extends Component {
     renderBanner(icon) {
         return (
             <center>
-                <div style={{ position: "block", height: "20vh" }}>&nbsp;</div>
+                <div style={{ position: "block", height: "20vh" }}></div>
                 <i className={"massive icon " + icon}></i>
             </center>
         )
@@ -219,7 +219,7 @@ class LobbyScreen extends Component {
 
         return (
             <center>
-                <div style={{ position: "block", height: "20vh" }}>&nbsp;</div>
+                <div style={{ position: "block", height: "20vh" }}></div>
                 <h1>{ msgs[this.props.winning_faction] }</h1>
             </center>
         )
@@ -378,7 +378,7 @@ class LobbyScreen extends Component {
         const style = this.props.is_night && this.props.in_game ? styles.night : styles.day;
         return (
             <div id="elid">
-            <div style={{ ...style, position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}>&nbsp;</div>
+            <div style={{ ...style, position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}></div>
             <div style={{ ...style, position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}>
                 <center style={{ ...style, position: "fixed", top: 0, right: 0, left: 0, zIndex: 9 }}>
                     { this.renderHeader() }
