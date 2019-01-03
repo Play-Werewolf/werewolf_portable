@@ -20,7 +20,7 @@ class App extends Component {
     multiplayer.init(this.props.dispatch);
     window.onConnected.push(function() {
       multiplayer.setDetails({
-        nickname: location.hash.substr(1) || getNickname(),
+        nickname: getNickname(),
         color: getColor(),
         avatar: getAvatar()
       });

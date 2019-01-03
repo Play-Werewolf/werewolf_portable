@@ -49,8 +49,26 @@ class ProfileScreen extends Component {
             this.setState({
                 avatarOptions: data
             });
+            window.Modal.open(
+                <div>
+                    <center><h3>Select your avatar</h3></center>
+    
+                    <br/>
+    
+                    <div className="ui four cards" style={{ overflowY : "scroll", maxHeight: "70vh", padding: "20px" }}>
+                        { this.renderCards() }
+                    </div>
+    
+    
+                    <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>
+                        <button className="ui button" 
+                            onClick={() => Modal.close()}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            )
         });
-        window.io.emit("bitmoji");
     }
 
     nicknameChanged(event) {
@@ -106,25 +124,7 @@ class ProfileScreen extends Component {
     }
 
     avatarSelection() {
-        window.Modal.open(
-            <div>
-                <center><h3>Select your avatar</h3></center>
-
-                <br/>
-
-                <div className="ui four cards" style={{ overflowY : "scroll", maxHeight: "70vh", padding: "20px" }}>
-                    { this.renderCards() }
-                </div>
-
-
-                <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>
-                    <button className="ui button" 
-                        onClick={() => Modal.close()}>
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        )
+        window.io.emit("bitmoji");
     }
 
     render() {

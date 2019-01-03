@@ -6,12 +6,14 @@ import speak from "./Voice";
 import NotificationView from "./components/NotificationsView";
 
 var dispatch = null;
+var roomId = null;
 
 const update = (up) => {
     dispatch({
         type: "UPDATE_MULTIPLAYER",
         payload: up
     });
+    roomId = up.roomId || roomId || null;
 };
 
 window.action = (type, payload) => {
@@ -21,7 +23,7 @@ window.action = (type, payload) => {
 export const init = (_dispatch) => {
     dispatch = _dispatch;
     window.onConnected = [];
-    window.io = openSocket("ws://localhost:12988/");
+    window.io = openSocket("ws://10.0.51.89:12988/");
     
     window.io.on("connected", () => {
         update({
@@ -44,6 +46,7 @@ export const init = (_dispatch) => {
 
     window.io.on("room", function(data) {
         update({roomId: data});
+        location.href = "#" + data;
     });
 
     window.io.on("join_error", function(data) {
@@ -58,8 +61,7 @@ export const init = (_dispatch) => {
     });
 
     window.io.on("kick", function() {
-        window.io.emit("leave");
-        update({roomId: null});
+        leaveRoom();
         window.Modal.open((
             <div>
                 <center>
@@ -115,6 +117,13 @@ export const init = (_dispatch) => {
             </div>
         );
     });
+
+    // This code is **most probably** error prone! Please be cautious with it, future me...
+    window.onhashchange = function() {
+        if (location.hash != "#" + roomId) {
+            leaveRoom();
+        }
+    }
 };
 
 export const createRoom = () => {
@@ -123,6 +132,12 @@ export const createRoom = () => {
 
 export const joinRoom = (roomId) => {
     window.io.emit("join", roomId);
+};
+
+export const leaveRoom = () => {
+    window.io.emit("leave");
+    location.href = "#";
+    update({roomId: null});
 };
 
 export const setDetails = (details) => {
