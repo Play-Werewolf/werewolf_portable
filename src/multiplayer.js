@@ -23,7 +23,7 @@ window.action = (type, payload) => {
 export const init = (_dispatch) => {
     dispatch = _dispatch;
     window.onConnected = [];
-    window.io = openSocket("ws://10.0.51.89:12988/");
+    window.io = openSocket("ws://10.0.0.23:12988/");
     
     window.io.on("connected", () => {
         update({

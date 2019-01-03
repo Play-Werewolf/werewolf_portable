@@ -213,7 +213,8 @@ class LobbyScreen extends Component {
             "WEREWOLVES": "Werewolves Win!",
             "VILLAGE": "Village Wins!",
             "DRAW": "Wipeout!",
-            "NEUTRAL": "Neutral Players Win!"
+            "NEUTRAL": "Neutral Players Win!",
+            "WITCH": "Witch wins!"
         };
 
         return (

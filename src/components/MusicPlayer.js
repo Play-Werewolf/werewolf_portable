@@ -76,7 +76,6 @@ const soundtracks = dict(
 
 class MusicPlayer extends Component {
     render() {
-        console.log("music player rendering with", this.props.phase);
         if (soundtracks[this.props.phase]) {
             return (
                 <Sound url={ soundtracks[this.props.phase].url }

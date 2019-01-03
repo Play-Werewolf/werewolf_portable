@@ -25,6 +25,13 @@ class App extends Component {
         avatar: getAvatar()
       });
     })
+
+    if (false) // change to false on production
+    {
+      window.localStorage.__proto__ = Object.create(Storage.prototype);
+      window.localStorage.__proto__.setItem = (x, v) => { window["__local__" + x] = v; }
+      window.localStorage.__proto__.getItem = (x) => window["__local__" + x];
+    }
   }
 
   renderScreen() {
