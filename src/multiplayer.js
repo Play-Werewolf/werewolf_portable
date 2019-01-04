@@ -24,7 +24,13 @@ window.action = (type, payload) => {
 export const init = (_dispatch) => {
     dispatch = _dispatch;
     window.onConnected = [];
-    window.io = openSocket("ws://" + window.location.hostname + ":12988/");
+
+    if (window.location.hostname.startsWith("werewolf")) {
+        window.io = openSocket("wss://werewolf.selfhosted.website:12989/");
+    }
+    else {
+        window.io = openSocket("ws://" + window.location.hostname + ":12988/");
+    }
     
     window.io.on("connected", () => {
         update({
