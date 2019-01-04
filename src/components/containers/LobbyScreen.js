@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { Phases, Roles, RoleNames, RoleImages, RoleMessages } from "../../Game";
 
+import { moveTo } from "../../actions/PagesActions";
+
 import RoleView from "../RoleView";
 import ExecutionView from "../ExecutionView";
 
@@ -126,7 +128,7 @@ class LobbyScreen extends Component {
                         <button style={{ backgroundColor: "#ac6635", color: "#f3f3f3" }} className="ui button" onClick={ this.sendStartGame }>Start</button>
                     </div>
                     <div style={{ position: "fixed", left: 0, top: 0, marginTop: "1em", marginLeft: "0.5em", zIndex: 10 }}>
-                        <button className="ui button">Setup</button>
+                        <button className="ui button" onClick={ () => this.props.moveTo("setup") }>Setup</button>
                     </div>
                 </div>
             );
@@ -502,4 +504,4 @@ const styles = {
     }
 }
 
-export default connect(mapStateToProps)(LobbyScreen);
+export default connect(mapStateToProps, { moveTo })(LobbyScreen);

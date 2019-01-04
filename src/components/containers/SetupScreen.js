@@ -1,28 +1,94 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RoleNames, RoleColors, Presets } from "../../Game";
+
+import { moveTo } from "../../actions/PagesActions";
+import { addRole, removeRole, setPreset } from "../../multiplayer";
 
 class SetupScreen extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            roles: []
+        };
+
+        if (window.io) {
+            window.io.off("roles_list");
+            window.io.on("roles_list", (list) => {
+                this.setState({roles: list});
+            });
+        }
+    }
+
+    componentDidMount() {
+        $(".ui.dropdown").dropdown();
+    }
+
+    renderRoleBtn(role, name, color) {
+        return (
+            <button onClick={ () => addRole(role) } className={"ui inverted fluid button " + color} style={{ marginBottom: "5px" }}>
+                {name}
+            </button>
+        )
+    }
+
+    renderRoleCard(key, name, color) {
+        return (
+            <button key={key} onClick={ () => removeRole(key) } className={"ui fluid button " + color} style={{ marginBottom: "5px" }}>
+                {name}
+            </button>
+        )
+    }
+
+    renderRolesList() {
+        console.log(this.props);
+        return this.props.roles.map((x, i) => this.renderRoleCard(i, RoleNames[x], RoleColors[x]))
+    }
+
+    presetClick(e) {
+        e = e || window.event;
+        var target = e.target || s.srcElement;
+        setPreset(target.getAttribute("data-value"));
+        window.cE = target;
+    }
 
     render() {
         return (
             <div>
-                <div style={{ position: "fixed", left: 0, bottom: 0, marginBottom: "1em", marginLeft: "0.5em", zIndex: 10 }}>
-                    <button className="ui button">Cancel</button>
-                </div>
                 <div style={{ position: "fixed", right: 0, bottom: 0, marginBottom: "1em", marginRight: "0.5em", zIndex: 10 }}>
-                    <button className="ui primary button">Save</button>
+                    <button className="ui primary button" onClick={ () => this.props.moveTo("game") }>Return</button>
                 </div>
-
+                
                 <center>
-                    <h2>Choose a game template</h2>
+                    <h2>Game Preset</h2>
                     <br/>
                 </center>
-                <div className="ui container grid two columns">
-                    <div className="ui column">
-                        <button className="ui button">Classic</button><br/>
-                        <button className="ui button">Jester></button><br/>
+                <div className="ui container grid two columns" style={{ height: "80vh" }}>
+                    <div className="ui column" style={{ overflowY: "auto", height: "100%" }}>
+                        <center>Add roles:</center>
+                        <div onClick={ (e) => this.presetClick(e) }>
+                            <select className="ui fluid dropdown">
+                                <option value="">Presets</option>
+                                {
+                                    Object.keys(Presets).map(preset => (
+                                        <option key={ preset } value={ preset }>{ Presets[preset].name }</option> 
+                                    ))
+                                }
+                            </select>
+                        </div><br/>
+                        { this.renderRoleBtn("VILLAGER", "Villager", "green") }
+                        { this.renderRoleBtn("HEALER", "Healer", "green") }
+                        { this.renderRoleBtn("SEER", "Fortune Teller", "green") }
+                        { this.renderRoleBtn("WEREWOLF", "Werewolf", "red") }
+                        { this.renderRoleBtn("WITCH", "Witch", "purple") }
+                        { this.renderRoleBtn("JESTER", "Jester", "blue") }
                     </div>
-                    <div className="ui column">right</div>
+                    <div className="ui column" style={{ overflowY: "auto", height: "100%" }}>
+                        <center>Roles:</center>
+                        { this.renderRolesList() }
+                    </div>
                 </div>
             </div>
         );
@@ -30,4 +96,10 @@ class SetupScreen extends Component {
 
 }
 
-export default SetupScreen;
+const mapStateToProps = (state) => {
+    return {
+        roles: state.mp ? (state.mp.roles || []) : []
+    }
+};
+
+export default connect(mapStateToProps, { moveTo })(SetupScreen);

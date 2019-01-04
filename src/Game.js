@@ -56,3 +56,76 @@ export const RoleMessages = dict(
     [Roles.WITCH, "Pick a player to spell, then pick their new target"],
     [Roles.JESTER, "Pick a player to haunt"]
 );
+
+export const RoleColors = dict(
+    [Roles.WEREWOLF, "red"],
+    [Roles.VILLAGER, "green"],
+    [Roles.HEALER, "green"],
+    [Roles.SEER, "green"],
+    [Roles.WITCH, "purple"],
+    [Roles.JESTER, "blue"]
+);
+
+export const Presets = {
+    "EMPTY": {
+        name: "Empty",
+        roles: []
+    },
+    "CLASSIC": {
+        name: "Classic",
+        roles: [
+            Roles.WEREWOLF,
+            Roles.HEALER,
+            Roles.SEER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF,
+            Roles.VILLAGER,
+        ]
+    },
+    "CLASSIC+": {
+        name: "Classic+",
+        roles: [
+            Roles.WEREWOLF,
+            Roles.HEALER,
+            Roles.SEER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF
+        ],
+    },
+    "CHAOS": {
+        name: "Chaos",
+        roles: [
+            Roles.WEREWOLF,
+            Roles.HEALER,
+            Roles.SEER,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.JESTER,
+            Roles.WITCH,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF,
+            Roles.VILLAGER,
+            Roles.VILLAGER,
+            Roles.WEREWOLF
+        ]
+    }
+}

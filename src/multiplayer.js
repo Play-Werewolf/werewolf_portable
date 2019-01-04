@@ -4,6 +4,7 @@ import React from "react";
 
 import speak from "./Voice";
 import NotificationView from "./components/NotificationsView";
+import { Presets } from "./Game";
 
 var dispatch = null;
 var roomId = null;
@@ -23,7 +24,7 @@ window.action = (type, payload) => {
 export const init = (_dispatch) => {
     dispatch = _dispatch;
     window.onConnected = [];
-    window.io = openSocket("ws://10.0.0.23:12988/");
+    window.io = openSocket("ws://" + window.location.hostname + ":12988/");
     
     window.io.on("connected", () => {
         update({
@@ -167,3 +168,15 @@ export const trialGuilty = () => {
 export const trialInnocent = () => {
     action("trial_innocent");
 };
+
+export const addRole = (role) => {
+    action("add_role", role);
+};
+
+export const removeRole = (role) => {
+    action("remove_role", role);
+};
+
+export const setPreset = (preset) => {
+    action("set_preset", Presets[preset].roles);
+}

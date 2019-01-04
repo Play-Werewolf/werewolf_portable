@@ -40,6 +40,9 @@ class App extends Component {
     }
 
     if (this.props.roomId) {
+      if (this.props.page == "setup") {
+        return <SetupScreen/>
+      }
       return <LobbyScreen/>
     }
 
