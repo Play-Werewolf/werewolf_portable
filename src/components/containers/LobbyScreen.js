@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Phases, Roles, RoleNames, RoleImages, RoleMessages } from "../../Game";
+import { Phases, Roles, RoleNames, RoleImages, RoleMessages, RoleCustomButtons } from "../../Game";
 
 import { moveTo } from "../../actions/PagesActions";
 
@@ -393,13 +393,13 @@ class LobbyScreen extends Component {
         return (
             <center>
                 <br/>
-                { this.customButtonList() }
+                { this.customButtonList(RoleCustomButtons[this.props.player.role]) }
             </center>
         )
     }
 
-    customButtonList() {
-        var buttons = [["Pass", false]];
+    customButtonList(buttons) {
+        buttons = buttons || [["Pass", false]];
         return buttons.map(b => (
             <button key={ b[0] } className="ui primary button"
                 onClick={ () => multiplayer.nightAction(b[1]) }>

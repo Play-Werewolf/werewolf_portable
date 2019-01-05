@@ -61,6 +61,10 @@ class ProfileScreen extends Component {
     
     
                     <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>
+                        <button className="ui secondary button" 
+                            onClick={this.avatarSelection}>
+                            Re-Shuffle
+                        </button>    
                         <button className="ui button" 
                             onClick={() => Modal.close()}>
                             Cancel
@@ -80,7 +84,7 @@ class ProfileScreen extends Component {
     save() {
         const { nickname, color, avatar } = this.state;
         if (nickname === "") {
-            alert("Nickname can't be empty");
+            alert("Name can't be empty");
         }
         else {
             setNickname(nickname);
@@ -136,9 +140,9 @@ class ProfileScreen extends Component {
                 </center>
                 <br/>
                 <div className="ui container">
-                    <span style={ styles.txt }>Nickname</span><br/>
+                    <span style={ styles.txt }>Name</span><br/>
                     <div className="ui input" style={{width: "100%" }}>
-                        <input type="text" placeholder="Your nickname" value={this.state.nickname} onChange={this.nicknameChanged} />
+                        <input type="text" placeholder="Your name" value={this.state.nickname} onChange={this.nicknameChanged} />
                     </div>
                     <br/><br/>
 

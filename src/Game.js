@@ -8,12 +8,33 @@ export const dict = function(){
 };
 
 export const Roles = {
-    WEREWOLF: "WEREWOLF",
+    // Town idle
     VILLAGER: "VILLAGER",
+
+    // Town protective
     HEALER: "HEALER",
+
+    // Town informative
     SEER: "SEER",
+    SPY: "SPY", // TODO
+    INVESTIGATOR: "INVESTIGATOR", // TODO
+
+    // Town killing
+    VETERAN: "VETERAN",
+    PRIEST: "PRIEST",
+
+    // Werewolves
+    WEREWOLF: "WEREWOLF",
+    WOLF_SEER: "WOLF_SEER", // TODO
+
+    // Witches
     WITCH: "WITCH",
-    JESTER: "JESTER"
+
+    // Arsonist
+    ARSONIST: "ARSONIST", // TODO
+
+    // Neutral roles
+    JESTER: "JESTER",
 };
 
 export const RoleNames = dict(
@@ -22,7 +43,13 @@ export const RoleNames = dict(
     [Roles.HEALER, "Healer"],
     [Roles.SEER, "Fortune Teller"],
     [Roles.WITCH, "Witch"],
-    [Roles.JESTER, "Jester"]
+    [Roles.JESTER, "Jester"],
+    [Roles.PRIEST, "Priest"],
+    [Roles.VETERAN, "Veteran"],
+    [Roles.ARSONIST, "Arsonist"],
+    [Roles.WOLF_SEER, "Wolf Seer"],
+    [Roles.INVESTIGATOR, "Investigator"],
+    [Roles.SPY, "Spy"]
 );
 
 export const RoleImages = dict(
@@ -32,6 +59,12 @@ export const RoleImages = dict(
     [Roles.SEER, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54419024e4b04f34e6f89ec3/1413582884890/?format=500w"],
     [Roles.WITCH, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
     [Roles.JESTER, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.PRIEST, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.VETERAN, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.ARSONIST, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.WOLF_SEER, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.INVESTIGATOR, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.SPY, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
 ) // TODO CHANGE WITCH PIC
 
 export const Phases = {
@@ -54,7 +87,13 @@ export const RoleMessages = dict(
     [Roles.HEALER, "Pick a player to heal"],
     [Roles.SEER, "Pick a player to check"],
     [Roles.WITCH, "Pick a player to spell, then pick their new target"],
-    [Roles.JESTER, "Pick a player to haunt"]
+    [Roles.JESTER, "Pick a player to haunt"],
+    [Roles.PRIEST, "Pick a player to kill"],
+    [Roles.VETERAN, "Would you like to stay on alert?"],
+    [Roles.ARSONIST, "Pick a player to douse or ignite doused players"],
+    [Roles.WOLF_SEER, "Pick a player to check"],
+    [Roles.INVESTIGATOR, "Pick a player to investigate"],
+    [Roles.SPY, "Pick a player to look at"],
 );
 
 export const RoleColors = dict(
@@ -62,9 +101,18 @@ export const RoleColors = dict(
     [Roles.VILLAGER, "green"],
     [Roles.HEALER, "green"],
     [Roles.SEER, "green"],
+    [Roles.PRIEST, "green"],
+    [Roles.VETERAN, "green"],
     [Roles.WITCH, "purple"],
     [Roles.JESTER, "blue"]
 );
+
+export const RoleCustomButtons = dict(
+    [Roles.VETERAN, [
+        ["Alert", true],
+        ["Sleep", false]
+    ]]
+)
 
 export const Presets = {
     "EMPTY": {
