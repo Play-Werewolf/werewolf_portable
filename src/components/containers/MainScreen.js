@@ -112,7 +112,7 @@ class MainScreen extends Component {
 
                     <h1>Join a party</h1>
                     <div className={"ui icon input" + (join_loading ? " loading" : "") }>
-                        <input type="text" placeholder="Party ID..." value={ this.state.partyId } onChange={ this.updatePartyId } />
+                        <input type="number" placeholder="Party ID..." value={ this.state.partyId } onChange={ this.updatePartyId } />
                         <i className="play link icon" onClick={ this.joinParty }></i>
                     </div>
 

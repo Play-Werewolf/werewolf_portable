@@ -21,6 +21,19 @@ window.action = (type, payload) => {
     window.io.emit("action", { type, payload });
 };
 
+const createRefreshToken = (roomId) => {
+    var token = roomId + "/" + window.io.id;
+    window.localStorage.setItem("werewolf__refresh_token", token);
+};
+
+const clearRefreshToken = () => {
+    window.localStorage.setItem("werewolf__refresh_token", "");
+};
+
+const getRefreshToken = () => {
+    return window.localStorage.getItem("werewolf__refresh_token") || null;
+}
+
 export const init = (_dispatch) => {
     dispatch = _dispatch;
     window.onConnected = [];
@@ -29,9 +42,9 @@ export const init = (_dispatch) => {
         window.io = openSocket("wss://werewolf.selfhosted.website:12989/");
     }
     else {
-        window.io = openSocket("ws://" + window.location.hostname + ":12988/");
+        window.io = openSocket("ws://10.0.0.23:12988/");
     }
-    
+
     window.io.on("connected", () => {
         update({
             connected: true,
@@ -45,6 +58,10 @@ export const init = (_dispatch) => {
                 x();
             }
         }
+
+        if (getRefreshToken()) {
+            window.io.emit("refresh_token", getRefreshToken())
+        }
     });
 
     window.io.on("disconnect", () => {
@@ -54,6 +71,7 @@ export const init = (_dispatch) => {
     window.io.on("room", function(data) {
         update({roomId: data});
         location.href = "#" + data;
+        createRefreshToken(data);
     });
 
     window.io.on("join_error", function(data) {
@@ -125,6 +143,8 @@ export const init = (_dispatch) => {
         );
     });
 
+    window.io.on("refresh_fail", clearRefreshToken);
+
     // This code is **most probably** error prone! Please be cautious with it, future me...
     window.onhashchange = function() {
         if (location.hash != "#" + roomId) {
@@ -144,6 +164,7 @@ export const joinRoom = (roomId) => {
 export const leaveRoom = () => {
     window.io.emit("leave");
     location.href = "#";
+    clearRefreshToken();
     update({roomId: null});
 };
 
@@ -185,4 +206,8 @@ export const removeRole = (role) => {
 
 export const setPreset = (preset) => {
     action("set_preset", Presets[preset].roles);
-}
+};
+
+export const skipDay = () => {
+    action("skip_day");
+};

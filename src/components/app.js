@@ -17,6 +17,7 @@ import Modal from "./Modal";
 class App extends Component {
 
   componentDidMount() {
+    //location.href = "#";
     multiplayer.init(this.props.dispatch);
     window.onConnected.push(function() {
       multiplayer.setDetails({

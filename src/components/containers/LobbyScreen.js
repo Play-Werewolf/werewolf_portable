@@ -120,6 +120,28 @@ class LobbyScreen extends Component {
         );
     }
 
+    renderWinnersList(winners) {
+        return (
+            <div className="ui middle aligned list">
+                Winning players:
+                {
+                    winners.map(w => (
+                        <div key={w.id} className="item">
+                            <img className="ui avatar image" src={w.image} />
+                            <div className="content">
+                                <div className="header"><strong>{w.name}</strong> ({RoleNames[w.role]})</div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+        )
+    }
+
+    sendSkip() {
+        multiplayer.skipDay();
+    }
+
     renderStartButton() {
         if (this.props.is_host && !this.props.in_game) {
             return (
@@ -133,7 +155,15 @@ class LobbyScreen extends Component {
                 </div>
             );
         }
-        else return null;
+        else if (this.props.is_host && this.props.phase == Phases.DISCUSSION) {
+            return (
+                <div>
+                    <div style={{ position: "fixed", right: 0, top: 0, marginTop: "1em", marginRight: "0.5em", zIndex: 10 }}>
+                        <button style={{ backgroundColor: "#ac6635", color: "#f3f3f3" }} className="ui button" onClick={ this.sendSkip }>Skip</button>
+                    </div>
+                </div>
+            );
+        }
     }
 
     renderSun() {
@@ -221,8 +251,9 @@ class LobbyScreen extends Component {
 
         return (
             <center>
-                <div style={{ position: "block", height: "20vh" }}></div>
-                <h1>{ msgs[this.props.winning_faction] }</h1>
+                <div style={{ position: "block", height: "10vh" }}></div>
+                <h1>{ msgs[this.props.winning_faction] || "Draw!" }</h1>
+                { this.renderWinnersList(this.props.players.filter(x => x.won)) }
             </center>
         )
     }
@@ -232,8 +263,7 @@ class LobbyScreen extends Component {
 
         if (phase == Phases.LOBBY) {
             return this.renderPlayerList({
-                onclick: ((p) => this.kickPlayer(p)),
-                blame: "Arad"
+                onclick: ((p) => this.kickPlayer(p))
             });
         }
         else if (phase == Phases.ROLE_SELECTION) {
@@ -278,7 +308,16 @@ class LobbyScreen extends Component {
         if (this.props.player.active) {
             return (
                 <div>
-                { this.renderPlayerList({onclick: this.nightActionPlayer}) }
+                { 
+                    this.renderPlayerList({
+                        onclick: this.nightActionPlayer,
+                        votes: (
+                            this.props.player.role == Roles.WEREWOLF ? (
+                                (player) => this.props.players.filter(x => x.role == Roles.WEREWOLF && !x.dead && x.target == player.id).length
+                            ) : null
+                        )
+                    })
+                }
                 { this.renderCustomButtons() }
                 </div>
             )
