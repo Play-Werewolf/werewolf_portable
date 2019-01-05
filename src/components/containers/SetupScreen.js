@@ -81,9 +81,15 @@ class SetupScreen extends Component {
                         { this.renderRoleBtn("VILLAGER", "Villager", "green") }
                         { this.renderRoleBtn("HEALER", "Healer", "green") }
                         { this.renderRoleBtn("SEER", "Fortune Teller", "green") }
+                        { this.renderRoleBtn("SPY", "Spy", "green") }
+                        { this.renderRoleBtn("INVESTIGATOR", "Investigator", "green") }
                         { this.renderRoleBtn("VETERAN", "Veteran", "green") }
                         { this.renderRoleBtn("PRIEST", "Priest", "green") }
+                        { this.renderRoleBtn("TOWN_INV", "♦ Invest ♦", "green") }
+                        { this.renderRoleBtn("TOWN_RAND", "♦ Random ♦", "green") }
                         { this.renderRoleBtn("WEREWOLF", "Werewolf", "red") }
+                        { this.renderRoleBtn("WOLF_SEER", "Wolf Seer", "red") }
+                        { this.renderRoleBtn("WOLF_RAND", "♦ Random ♦", "red") }
                         { this.renderRoleBtn("WITCH", "Witch", "purple") }
                         { this.renderRoleBtn("JESTER", "Jester", "blue") }
                     </div>

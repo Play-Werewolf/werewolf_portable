@@ -131,7 +131,7 @@ export const init = (_dispatch) => {
     window.io.on("open_messages", function(data) {
         window.Modal.open(
             <div>
-                <NotificationView messages={data}/>
+                <NotificationView messages={data} key={Math.random().toString()}/>
                 <button className="ui button" 
                     style={{ backgroundColor: "#ac6635", position: "absolute", bottom: "20px", right: "20px" }}
                     onClick={() => {

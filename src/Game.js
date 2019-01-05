@@ -49,7 +49,8 @@ export const RoleNames = dict(
     [Roles.ARSONIST, "Arsonist"],
     [Roles.WOLF_SEER, "Wolf Seer"],
     [Roles.INVESTIGATOR, "Investigator"],
-    [Roles.SPY, "Spy"]
+    [Roles.SPY, "Spy"],
+    [Roles.WOLF_SEER, "Wolf Seer"]
 );
 
 export const RoleImages = dict(
@@ -65,6 +66,7 @@ export const RoleImages = dict(
     [Roles.WOLF_SEER, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
     [Roles.INVESTIGATOR, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
     [Roles.SPY, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
+    [Roles.WOLF_SEER, "https://static1.squarespace.com/static/532a4886e4b0e5f755112794/t/54418f50e4b0a94c767922f0/1413582672430/?format=500w"],
 ) // TODO CHANGE WITCH PIC
 
 export const Phases = {
@@ -94,6 +96,7 @@ export const RoleMessages = dict(
     [Roles.WOLF_SEER, "Pick a player to check"],
     [Roles.INVESTIGATOR, "Pick a player to investigate"],
     [Roles.SPY, "Pick a player to look at"],
+    [Roles.WOLF_SEER, "Pick a player to check"]
 );
 
 export const RoleColors = dict(
