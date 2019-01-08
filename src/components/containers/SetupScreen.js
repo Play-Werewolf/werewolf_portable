@@ -26,17 +26,19 @@ class SetupScreen extends Component {
         $(".ui.dropdown").dropdown();
     }
 
-    renderRoleBtn(role, name, color) {
+    renderRoleBtn(role, name, color, customStyle = {}) {
         return (
-            <button onClick={ () => addRole(role) } className={"ui inverted fluid button " + color} style={{ marginBottom: "5px" }}>
+            <button onClick={ () => addRole(role) } className={"ui inverted fluid button " + color} style={{ marginBottom: "5px", ...customStyle }}>
                 {name}
             </button>
         )
     }
 
     renderRoleCard(key, name, color) {
+        console.log(name);
+        var style = color == "white" ? {background: "linear-gradient(to right, orange , yellow, green, cyan, blue, violet)"} : {};
         return (
-            <button key={key} onClick={ () => removeRole(key) } className={"ui fluid button " + color} style={{ marginBottom: "5px" }}>
+            <button key={key} onClick={ () => removeRole(key) } className={"ui fluid button " + color} style={{ marginBottom: "5px", ...style }}>
                 {name}
             </button>
         )
@@ -85,13 +87,18 @@ class SetupScreen extends Component {
                         { this.renderRoleBtn("INVESTIGATOR", "Investigator", "green") }
                         { this.renderRoleBtn("VETERAN", "Veteran", "green") }
                         { this.renderRoleBtn("PRIEST", "Priest", "green") }
-                        { this.renderRoleBtn("TOWN_INV", "♦ Invest ♦", "green") }
-                        { this.renderRoleBtn("TOWN_RAND", "♦ Random ♦", "green") }
+                        <hr/>
                         { this.renderRoleBtn("WEREWOLF", "Werewolf", "red") }
                         { this.renderRoleBtn("WOLF_SEER", "Wolf Seer", "red") }
-                        { this.renderRoleBtn("WOLF_RAND", "♦ Random ♦", "red") }
+                        <hr/>
                         { this.renderRoleBtn("WITCH", "Witch", "purple") }
                         { this.renderRoleBtn("JESTER", "Jester", "blue") }
+                        <hr/>
+                        { this.renderRoleBtn("TOWN_INV", "♦ Invest ♦", "green") }
+                        { this.renderRoleBtn("TOWN_ATCK", "♦ Attack ♦", "green") }
+                        { this.renderRoleBtn("TOWN_RAND", "♦ Random ♦", "green") }
+                        { this.renderRoleBtn("WOLF_RAND", "♦ Random ♦", "red") }
+                        { this.renderRoleBtn("RANDOM", "Random", "white", { background: "linear-gradient(to right, orange , yellow, green, cyan, blue, violet)" }) }
                     </div>
                     <div className="ui column" style={{ overflowY: "auto", height: "100%" }}>
                         <center>Roles:</center>

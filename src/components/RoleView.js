@@ -37,19 +37,21 @@ class RoleView extends Component {
         super(props)
 
         this.state = {
-            phase: 0
+            phase: this.props.immediate ? 2 : 0
         };
 
         this.renderRole = this.renderRole.bind(this);
     }
 
     componentDidMount() {
-        this.timeout = setTimeout(() => {
-            this.setState({phase: 1});
+        if (!this.props.immediate) {
             this.timeout = setTimeout(() => {
-                this.setState({phase: 2});
-            }, 1300);
-        }, 3000);
+                this.setState({phase: 1});
+                this.timeout = setTimeout(() => {
+                    this.setState({phase: 2});
+                }, 1300);
+            }, 3000);
+        }
     }
 
     componentWillUnmount() {
@@ -65,7 +67,7 @@ class RoleView extends Component {
         console.log("Rendering ROLE ", this.props.role, RoleNames)
         return (
             <div>
-                <RoleImg pose={ imgv } style={{width: "100%"}} src={ url } />
+                <RoleImg pose={ imgv } style={{width: "75%"}} src={ url } />
                 <center>
                     <RoleH1 pose={ txtv }>{ RoleNames[this.props.role] }</RoleH1>
                 </center>

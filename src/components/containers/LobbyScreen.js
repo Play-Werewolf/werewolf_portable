@@ -246,7 +246,8 @@ class LobbyScreen extends Component {
             "VILLAGE": "Village Wins!",
             "DRAW": "Wipeout!",
             "NEUTRAL": "Neutral Players Win!",
-            "WITCH": "Witch wins!"
+            "WITCH": "Witch wins!",
+            "ARSONIST": "Arsonist wins!"
         };
 
         return (
@@ -380,7 +381,7 @@ class LobbyScreen extends Component {
         var timer = Math.ceil((this.state.timer / 1000) || 0);
         var timestr = timer >= 60 ? (Math.floor(timer / 60) + ":" + ("0" + (timer % 60)).slice(-2)) : timer.toString();
         return (
-            <TimerLbl pose={ this.state.timer ? "visible" : "hidden" } style={{ position: "fixed", bottom: "5%" }}>
+            <TimerLbl pose={ this.state.timer ? "visible" : "hidden" } style={{ position: "fixed", bottom: "10vh" }}>
                 <div className="ui label big" style={{ backgroundColor: this.props.main_color, color: this.props.secondary_color, textAlign: "center" }}>
                     <i className="time icon" style={{ margin: 0, marginBottom: "4px" }}></i><br/>
                     { timestr }
@@ -406,6 +407,50 @@ class LobbyScreen extends Component {
                 { b[0] }
             </button>
         ));
+    }
+
+    showRole() {
+        console.log(this.props.player);
+        if (!this.props.player.role) {
+            window.Modal.open(
+                <div>
+                    <center>
+                        <h1> </h1>
+                        <h1>Cannot show your role right now</h1>
+                    </center>
+                    <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>  
+                        <button className="ui button" 
+                            onClick={() => Modal.close()}>
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )
+        }
+        else {
+            window.Modal.open(
+                <div>
+                    <RoleView immediate role={this.props.player.role} />
+                    <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>  
+                        <button className="ui button" 
+                            onClick={() => Modal.close()}>
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    renderBottomMenu() {
+        return (
+            <div className="ui three item inverted secondary menu"
+                style={{ position: "fixed", bottom: 0, left: 0, right: 0, backgroundColor: "black" }}>
+                <a className="item" onClick={ () => multiplayer.leaveRoom() }>Exit</a>
+                <a className="item" onClick={ this.showRole.bind(this) }>Show Role</a>
+                { (this.props.phase == Phases.DISCUSSION) ? (<a className="item">Day Action</a>) : null }
+            </div>
+        )
     }
 
     renderMusic() {
@@ -437,6 +482,8 @@ class LobbyScreen extends Component {
                 { this.renderStartButton() }
 
                 { this.renderTimer() }
+
+                { this.renderBottomMenu() }
 
                 { this.renderMusic() }
             </div>
