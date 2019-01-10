@@ -42,7 +42,7 @@ export const init = (_dispatch) => {
         window.io = openSocket("wss://werewolf.selfhosted.website:12989/");
     }
     else {
-        window.io = openSocket("ws://10.0.0.23:12988/");
+        window.io = openSocket("ws://127.0.0.1:12988/");
     }
 
     window.io.on("connected", () => {

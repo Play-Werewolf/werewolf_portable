@@ -29,6 +29,8 @@ export const Roles = {
 
     // Witches
     WITCH: "WITCH",
+    CREEPY_GIRL: "CREEPY_GIRL",
+    DEATH_WITCH: "DEATH_WITCH",
 
     // Arsonist
     ARSONIST: "ARSONIST", // TODO
@@ -52,6 +54,8 @@ export const RoleNames = dict(
     [Roles.SPY, "Spy"],
     [Roles.WOLF_SEER, "Wolf Seer"],
     [Roles.ARSONIST, "Arsonist"],
+    [Roles.CREEPY_GIRL, "Creepy Girl"],
+    [Roles.DEATH_WITCH, "Death Witch"],
 
     ["TOWN_INV", "♦ Invest ♦"],
     ["TOWN_ATCK", "♦ Attack ♦"],
@@ -73,6 +77,8 @@ export const RoleImages = dict(
     [Roles.WOLF_SEER,   "/asset/img/role/wolf_seer.png"],
     [Roles.INVESTIGATOR,"/asset/img/role/investigator.png"],
     [Roles.SPY,         "/asset/img/role/spy.png"],
+    [Roles.CREEPY_GIRL, "/asset/img/role/creepy_girl.png"],
+    [Roles.DEATH_WITCH, "/asset/img/role/witch.png"],
 ) // TODO CHANGE WITCH PIC
 
 export const Phases = {
@@ -103,17 +109,24 @@ export const RoleMessages = dict(
     [Roles.INVESTIGATOR, "Pick a player to investigate"],
     [Roles.SPY, "Pick a player to look at"],
     [Roles.WOLF_SEER, "Pick a player to check"],
-    [Roles.ARSONIST, "Pick a player to douse or ignite your targets"]
+    [Roles.ARSONIST, "Pick a player to douse or ignite your targets"],
+    [Roles.CREEPY_GIRL, "Pick a player to give your doll to"],
+    [Roles.DEATH_WITCH, "Pick a player to kill"],
 );
 
 export const RoleColors = dict(
     [Roles.WEREWOLF, "red"],
+    [Roles.WOLF_SEER, "red"],
     [Roles.VILLAGER, "green"],
     [Roles.HEALER, "green"],
     [Roles.SEER, "green"],
+    [Roles.SPY, "green"],
+    [Roles.INVESTIGATOR, "green"],
     [Roles.PRIEST, "green"],
     [Roles.VETERAN, "green"],
     [Roles.WITCH, "purple"],
+    [Roles.CREEPY_GIRL, "purple"],
+    [Roles.DEATH_WITCH, "purple"],
     [Roles.JESTER, "blue"],
     [Roles.ARSONIST, "orange"],
     ["TOWN_INV", "green"],

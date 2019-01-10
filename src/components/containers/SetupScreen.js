@@ -91,7 +91,9 @@ class SetupScreen extends Component {
                         { this.renderRoleBtn("WEREWOLF", "Werewolf", "red") }
                         { this.renderRoleBtn("WOLF_SEER", "Wolf Seer", "red") }
                         <hr/>
+                        { this.renderRoleBtn("ARSONIST", "Arsonist", "orange") }
                         { this.renderRoleBtn("WITCH", "Witch", "purple") }
+                        { this.renderRoleBtn("CREEPY_GIRL", "Creepy Girl", "purple") }
                         { this.renderRoleBtn("JESTER", "Jester", "blue") }
                         <hr/>
                         { this.renderRoleBtn("TOWN_INV", "♦ Invest ♦", "green") }

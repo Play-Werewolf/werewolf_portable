@@ -197,8 +197,14 @@ class LobbyScreen extends Component {
             "GAME_OVER": "Game over!"
         })[this.props.phase] || this.props.message;
 
-        if (this.props.player.active && this.props.phase == Phases.NIGHT) 
-            msg = RoleMessages[this.props.player.role];
+        if (this.props.player.active && this.props.phase == Phases.NIGHT) {
+            if (this.props.nightIndex == "SPOOKY_DOLL") {
+                msg = "Pass the spooky doll to someone";
+            }
+            else {
+                msg = RoleMessages[this.props.player.role];
+            }
+        }
         return (
             <div style={{...styles.headerStyle, marginLeft: "3em", marginTop: ".5em"}}>
                 <h3>{msg}</h3>
@@ -245,6 +251,7 @@ class LobbyScreen extends Component {
             "WEREWOLVES": "Werewolves Win!",
             "VILLAGE": "Village Wins!",
             "DRAW": "Wipeout!",
+            "NOKILL": "Draw! (no kills)",
             "NEUTRAL": "Neutral Players Win!",
             "WITCH": "Witch wins!",
             "ARSONIST": "Arsonist wins!"
@@ -565,7 +572,9 @@ const mapStateToProps = (state) => {
 
         player_on_stand: state.mp.player_on_stand,
 
-        winning_faction: state.mp.winning_faction
+        winning_faction: state.mp.winning_faction,
+
+        nightIndex: state.mp.night_index
     };
 };
 
