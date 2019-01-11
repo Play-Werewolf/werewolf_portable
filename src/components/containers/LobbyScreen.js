@@ -376,7 +376,10 @@ class LobbyScreen extends Component {
 
     renderExecution() {
         return (
-           <ExecutionView player={this.props.player_on_stand} />
+            <div>
+                <ExecutionView player={this.props.player_on_stand} />
+                <div style={{ height: "100vh" }}>&nbsp;</div>
+            </div>
         )
     }
 
