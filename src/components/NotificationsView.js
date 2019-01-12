@@ -14,7 +14,7 @@ class NotificationView extends Component {
 
     componentWillMount() {
         this.setState({
-            shown: false
+            shown: true
         })
     }
 
@@ -48,12 +48,12 @@ class NotificationView extends Component {
                 <center>
 
                     <h1>New notifications</h1>
-                    <p style={{lineHeight: "1.4ehm"}}>You might have some new notifications</p>
+                    {/* <p style={{lineHeight: "1.4ehm"}}>You might have some new notifications</p>
                     
                     <button className="ui button"
                         onClick={ this.btnClick }>
                         { this.state.shown ? "Hide" : "Show" }
-                    </button>
+                    </button> */}
                 </center>
                 <br/>
 

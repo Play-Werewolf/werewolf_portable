@@ -42,7 +42,7 @@ export const init = (_dispatch) => {
         window.io = openSocket("wss://werewolf.selfhosted.website:12989/");
     }
     else {
-        window.io = openSocket("ws://192.168.1.42:12988/");
+        window.io = openSocket("ws://127.0.0.1:12988/");
     }
 
     window.io.on("connected", () => {
@@ -129,18 +129,8 @@ export const init = (_dispatch) => {
     });
 
     window.io.on("open_messages", function(data) {
-        window.Modal.open(
-            <div>
-                <NotificationView messages={data} key={Math.random().toString()}/>
-                <button className="ui button" 
-                    style={{ backgroundColor: "#ac6635", position: "absolute", bottom: "20px", right: "20px" }}
-                    onClick={() => {
-                        window.Modal.close();
-                    }}>
-                    Ok
-                </button>
-            </div>
-        );
+        window.notifications = data;
+        showNotifications();
     });
 
     window.io.on("refresh_fail", clearRefreshToken);
@@ -211,3 +201,18 @@ export const setPreset = (preset) => {
 export const skipDay = () => {
     action("skip_day");
 };
+
+export const showNotifications = () => {
+    window.Modal.open(
+        <div>
+            <NotificationView messages={window.notifications} key={Math.random().toString()}/>
+            <button className="ui button" 
+                style={{ backgroundColor: "#ac6635", position: "absolute", bottom: "20px", right: "20px" }}
+                onClick={() => {
+                    window.Modal.close();
+                }}>
+                Ok
+            </button>
+        </div>
+    );
+}

@@ -254,7 +254,8 @@ class LobbyScreen extends Component {
             "NOKILL": "Draw! (no kills)",
             "NEUTRAL": "Neutral Players Win!",
             "WITCH": "Witch wins!",
-            "ARSONIST": "Arsonist wins!"
+            "ARSONIST": "Arsonist wins!",
+            "FOOL": "Fool wins!"
         };
 
         return (
@@ -357,15 +358,16 @@ class LobbyScreen extends Component {
 
     renderTrial() {
         console.log(this.props.player_on_stand);
+        var p = this.props.player_on_stand;
         return (
             <center>
                 <div className="ui card">
-                    <div className="image">
-                        <img src={ this.props.player_on_stand.image }/>
+                    <div className="image" style={{ width: "50%", backgroundColor: "transparent", margin: "20px" }}>
+                        <img src={ p.image }/>
                     </div>
                     <div className="content">
                         <div className="header">
-                            { this.props.player_on_stand.name }
+                            { p.name }
                         </div>
                     </div>
                     { this.renderGuiltyInno() }
@@ -458,7 +460,7 @@ class LobbyScreen extends Component {
                 style={{ position: "fixed", bottom: 0, left: 0, right: 0, backgroundColor: "black" }}>
                 <a className="item" onClick={ () => multiplayer.leaveRoom() }>Exit</a>
                 <a className="item" onClick={ this.showRole.bind(this) }>Show Role</a>
-                { (this.props.phase == Phases.DISCUSSION) ? (<a className="item">Day Action</a>) : null }
+                { (this.props.phase == Phases.DISCUSSION) ? (<a className="item" onClick={ () => multiplayer.showNotifications() }>Notifications</a>) : null }
             </div>
         )
     }

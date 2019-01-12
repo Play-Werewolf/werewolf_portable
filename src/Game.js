@@ -37,6 +37,7 @@ export const Roles = {
 
     // Neutral roles
     JESTER: "JESTER",
+    FOOL: "FOOL"
 };
 
 export const RoleNames = dict(
@@ -46,6 +47,7 @@ export const RoleNames = dict(
     [Roles.SEER, "Fortune Teller"],
     [Roles.WITCH, "Witch"],
     [Roles.JESTER, "Jester"],
+    [Roles.FOOL, "Fool"],
     [Roles.PRIEST, "Priest"],
     [Roles.VETERAN, "Veteran"],
     [Roles.ARSONIST, "Arsonist"],
@@ -71,6 +73,7 @@ export const RoleImages = dict(
     [Roles.SEER,        "/asset/img/role/seer.png"],
     [Roles.WITCH,       "/asset/img/role/witch.png"],
     [Roles.JESTER,      "/asset/img/role/jester.png"],
+    [Roles.FOOL,      "/asset/img/role/jester.png"],
     [Roles.PRIEST,      "/asset/img/role/priest.png"],
     [Roles.VETERAN,     "/asset/img/role/veteran.png"],
     [Roles.ARSONIST,    "/asset/img/role/arsonist.png"],
@@ -128,6 +131,7 @@ export const RoleColors = dict(
     [Roles.CREEPY_GIRL, "purple"],
     [Roles.DEATH_WITCH, "purple"],
     [Roles.JESTER, "blue"],
+    [Roles.FOOL, "blue"],
     [Roles.ARSONIST, "orange"],
     ["TOWN_INV", "green"],
     ["TOWN_ATCK", "green"],

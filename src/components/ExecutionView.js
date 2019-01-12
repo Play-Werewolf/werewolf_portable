@@ -6,7 +6,7 @@ import posed from "react-pose";
 
 var TriedImage = posed.img({
     visible: {
-        top: 0
+        top: 20
     },
     hidden: {
         top: "100%",
@@ -49,11 +49,6 @@ class ExecutionView extends Component {
         return (
             <center>
                 <div className="ui card">
-                    <div className="image" style={{overflow: "hidden"}}>
-                        <img src={ "https://i.imgur.com/D4Lko8G.png" } style={graveStyle}/>
-                        <TriedImage src={ this.props.player.image } style={styles.overlapping}
-                            pose={ this.state.imgshown }/>
-                    </div>
                     <div className="content">
                         <div className="header">
                             The town has decided to execute { this.props.player.name }.
@@ -62,6 +57,12 @@ class ExecutionView extends Component {
                     <div className="content" style={{ fontStyle: "italic", color: "black" }}>
                         May god have mercy on your soul, { this.props.player.name }
                     </div>
+                    <div className="image" style={{overflow: "hidden", width: "50vw"}}>
+                        <img src={ "https://i.imgur.com/D4Lko8G.png" } style={graveStyle}/>
+                        <TriedImage src={ this.props.player.image } style={styles.overlapping}
+                            pose={ this.state.imgshown }/>
+                    </div>
+                    <br/>
                 </div>
             </center>
         )
@@ -72,8 +73,10 @@ class ExecutionView extends Component {
 const styles = {
     overlapping: {
         position: "absolute",
-        top: 0,
-        left: 0
+        top: "10%",
+        left: "10%",
+        height: "80%",
+        width: "auto"
     }
 }
 
