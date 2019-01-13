@@ -35,10 +35,16 @@ class App extends Component {
     }
   }
 
-  renderScreen() {
+  renderDimmer() {
     if (!this.props.connected) {
       return <LoginScreen/>;
     }
+  }
+
+  renderScreen() {
+    // if (!this.props.connected) {
+    //   return <MainScreen/>;
+    // }
 
     if (this.props.roomId) {
       if (this.props.page == "setup") {
@@ -58,6 +64,7 @@ class App extends Component {
     return (
       <div>
       { this.renderScreen() }
+      { this.renderDimmer() }
       <Modal/>
       </div>
     )

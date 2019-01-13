@@ -11,9 +11,9 @@ class LoginScreen extends Component {
     render() {
         return (
             <center>
-                <Header as="h2">Connecting...</Header>
-                <br/><br/><br/>
-                <Button onClick={ () => this.props.login() }>Play</Button>
+                <div className="ui active dimmer" style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }}>
+                    <div className="ui huge text loader">Loading</div>
+                </div>
             </center>
         )
     }

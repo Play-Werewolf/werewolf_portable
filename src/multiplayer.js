@@ -9,6 +9,8 @@ import { Presets } from "./Game";
 var dispatch = null;
 var roomId = null;
 
+window.VERSION = "1.0.2";
+
 const update = (up) => {
     dispatch({
         type: "UPDATE_MULTIPLAYER",
@@ -135,12 +137,40 @@ export const init = (_dispatch) => {
 
     window.io.on("refresh_fail", clearRefreshToken);
 
+    window.io.on("version", function(data) {
+        if (data != window.VERSION) {
+            Modal.open(
+                <div>
+                    <center>
+                        <h1>
+                            Uh Oh...
+                        </h1>
+                        <h3>
+                            It seems like this is not the most recent version of the game.
+                            <br/>
+                            Do you want to try and refresh the cache?
+                        </h3>
+                    </center>
+                    <div style={{ position: "absolute", bottom: "20px", right: "20px", textAlign: "right" }}>  
+                        (We are not really giving you the choice)<br/><br/>
+                        <button className="ui primary button" 
+                            onClick={() => window.location.reload(true) }>
+                            Yes
+                        </button>
+                    </div>
+                </div>
+            )
+        }
+    });
+
     // This code is **most probably** error prone! Please be cautious with it, future me...
     window.onhashchange = function() {
         if (location.hash != "#" + roomId) {
             leaveRoom();
         }
     }
+
+    window.io.emit("version"); // Checking version control
 };
 
 export const createRoom = () => {
