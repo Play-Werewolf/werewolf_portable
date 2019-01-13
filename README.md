@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://github.com/yotam180/werewolf_portable/raw/master/asset/img/role/werewolf.png"/>
+</p>
+
 # Werewolf Online
 
 Want to play? Go to our [website](https://werewolf.selfhosted.website/)?
