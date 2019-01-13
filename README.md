@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/yotam180/werewolf_portable/raw/master/asset/img/role/werewolf.png"/>
+    <img style="width: 30%" src="https://github.com/yotam180/werewolf_portable/raw/master/asset/img/role/werewolf.png"/>
 </p>
 
 # Werewolf Online
