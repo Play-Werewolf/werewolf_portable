@@ -40,11 +40,11 @@ export const init = (_dispatch) => {
     dispatch = _dispatch;
     window.onConnected = [];
 
-    if (window.location.hostname.startsWith("werewolf")) {
-        window.io = openSocket("wss://werewolf.selfhosted.website:12989/");
+    if (window.location.hostname.startsWith("localhost")) {
+       window.io = openSocket("ws://127.0.0.1:12988/");
     }
     else {
-        window.io = openSocket("ws://127.0.0.1:12988/");
+        window.io = openSocket("wss://werewolf.selfhosted.website:12989/");
     }
 
     window.io.on("connected", () => {
