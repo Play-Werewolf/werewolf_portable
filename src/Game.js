@@ -170,6 +170,27 @@ export const Presets = {
             Roles.VILLAGER,
         ]
     },
+    "WOW": {
+        name: "==Wow==",
+        roles: [
+            Roles.WEREWOLF,
+            Roles.HEALER,
+            "TOWN_INV",
+            Roles.VILLAGER,
+            Roles.SEER,
+            Roles.FOOL,
+            Roles.WEREWOLF,
+            "TOWN_ATCK",
+            "TOWN_INV",
+            "WOLF_RAND",
+            "TOWN_RAND",
+            Roles.WITCH,
+            "TOWN_ATCK",
+            "TOWN_INV",
+            Roles.ARSONIST,
+            Roles.CREEPY_GIRL
+        ]
+    },
     "CLASSIC+": {
         name: "Classic+",
         roles: [

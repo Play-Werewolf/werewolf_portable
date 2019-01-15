@@ -6,6 +6,8 @@ import speak from "./Voice";
 import NotificationView from "./components/NotificationsView";
 import { Presets } from "./Game";
 
+import { moveTo } from "./actions/PagesActions";
+
 var dispatch = null;
 var roomId = null;
 
@@ -83,7 +85,6 @@ export const init = (_dispatch) => {
     });
 
     window.io.on("state", function(data) {
-        console.log("state update ", data);
         update(data);
     });
 

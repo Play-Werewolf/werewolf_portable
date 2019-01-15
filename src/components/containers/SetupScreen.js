@@ -60,7 +60,7 @@ class SetupScreen extends Component {
         return (
             <div>
                 <div style={{ position: "fixed", right: 0, bottom: 0, marginBottom: "1em", marginRight: "0.5em", zIndex: 10 }}>
-                    <button className="ui primary button" onClick={ () => this.props.moveTo("game") }>Return</button>
+                    <button className="ui primary button" onClick={ () => this.props.moveTo("game") }>Save & Continue</button>
                 </div>
                 
                 <center>

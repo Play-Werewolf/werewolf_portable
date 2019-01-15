@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Phases, Roles, RoleNames, RoleImages, RoleMessages, RoleCustomButtons } from "../../Game";
+import { Phases, Roles, RoleNames, RoleImages, RoleMessages, RoleCustomButtons, RoleColors } from "../../Game";
 
 import { moveTo } from "../../actions/PagesActions";
 
@@ -80,8 +80,6 @@ class LobbyScreen extends Component {
     }
 
     renderPlayerCard(player, options = {}) {
-        console.log(player);
-
         var onclick = options["onclick"] || (()=>0);
         var votes = options["votes"] ? options["votes"](player) : 0;
 
@@ -267,13 +265,35 @@ class LobbyScreen extends Component {
         )
     }
 
+    renderRolesList() {
+        return this.props.roles.slice(0, this.props.players.length).map((x, i) => 
+            <div key={i} style={{ display: "inline-block", fontWeight: "bold", color: RoleColors[x] }}>
+                { RoleNames[x] },&nbsp;&nbsp;
+            </div>
+        )
+    }
+
+    renderIdleDiv() {
+        return (
+            <div>
+                {
+                    this.renderPlayerList({
+                        onclick: ((p) => this.kickPlayer(p))
+                    })
+                }
+                <p>&nbsp;</p>
+                <div>
+                Roles: { this.renderRolesList() }
+                </div>
+            </div>
+        )
+    }
+
     renderMainDiv() {
         var { phase } = this.props;
 
         if (phase == Phases.LOBBY) {
-            return this.renderPlayerList({
-                onclick: ((p) => this.kickPlayer(p))
-            });
+            return this.renderIdleDiv();
         }
         else if (phase == Phases.ROLE_SELECTION) {
             return this.renderRoleSelection();
@@ -467,7 +487,6 @@ class LobbyScreen extends Component {
 
     renderMusic() {
         if (this.props.is_host) {
-            console.log("Rendering music");
             return <MusicPlayer phase={ this.props.phase }/>
         }
     }
@@ -579,7 +598,9 @@ const mapStateToProps = (state) => {
 
         winning_faction: state.mp.winning_faction,
 
-        nightIndex: state.mp.night_index
+        nightIndex: state.mp.night_index,
+
+        roles: state.mp ? (state.mp.roles || []) : []
     };
 };
 
