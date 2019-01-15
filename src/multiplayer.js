@@ -11,7 +11,7 @@ import { moveTo } from "./actions/PagesActions";
 var dispatch = null;
 var roomId = null;
 
-window.VERSION = "1.0.2";
+window.VERSION = "1.0.3";
 
 const update = (up) => {
     dispatch({
