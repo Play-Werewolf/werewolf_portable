@@ -20,7 +20,9 @@ import * as multiplayer from "../../../multiplayer";
 
 import posed from "react-pose";
 import MusicPlayer from "../../MusicPlayer";
-import { SquareImage } from "../../SquareImage";
+
+import PlayerCard from "./PlayerCard";
+import WinnersList from "./WinnersList";
 
 const TimerLbl = posed.div({
   visible: {
@@ -62,136 +64,30 @@ class LobbyScreen extends Component {
     clearInterval(this.timer);
   }
 
-  makeBlameDiv(txt) {
-    return (
-      <div>
-        <strong
-          style={{
-            color: "#f00",
-            borderRadius: "10px",
-            padding: "2px",
-            backgroundColor: "black",
-          }}
-        >
-          🡆 {txt}
-        </strong>
-      </div>
-    );
-  }
-
-  renderVotesPanel(votes, highlighted) {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          borderBottomRightRadius: "10px",
-          padding: "5px",
-          backgroundColor: "rgba(255, 0, 0, 0.8)",
-          color: "white",
-          border: highlighted ? "3px solid gold" : "3px solid red",
-          borderLeft: "",
-          borderTop: "",
-        }}
-      >
-        {votes}
-      </div>
-    );
-  }
-
-  renderPlayerCard(player, options = {}) {
-    var onclick = options["onclick"] || (() => 0);
-    var votes = options["votes"] ? options["votes"](player) : 0;
-
-    var style = player.dead ? styles.dead : styles.alive;
-    var outline =
-      player.id == this.props.network_id
-        ? { boxShadow: "0 0 0 3pt gold", borderRadius: "2px" }
-        : {};
-    var img = player.dead
-      ? "https://www.freeiconspng.com/uploads/skull-and-crossbones-png-3.png"
-      : player.image;
-
-    return (
-      <div
-        className="ui fluid card"
-        onClick={() => onclick(player)}
-        style={{ ...outline, marginTop: ".4em", marginBottom: ".4em" }}
-        key={player.id}
-      >
-        <div className="image">
-          <SquareImage
-            src={img}
-            color={player.dead ? "transparent" : player.color}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              left: 0,
-              textAlign: "center",
-            }}
-          >
-            {/*blame ? this.makeBlameDiv(blame) : null*/}
-            <div style={{ ...style, width: "100%" }}>
-              {player.name.substr(0, 15)}
-            </div>
-          </div>
-          {votes
-            ? this.renderVotesPanel(votes, this.props.player.vote == player.id)
-            : null}
-        </div>
-      </div>
-    );
-  }
-
   renderPlayerList(options) {
-    var col1 = this.props.players
-      .filter((_, i) => i % 4 == 0)
-      .map((x) => this.renderPlayerCard(x, options));
-    var col2 = this.props.players
-      .filter((_, i) => i % 4 == 1)
-      .map((x) => this.renderPlayerCard(x, options));
-    var col3 = this.props.players
-      .filter((_, i) => i % 4 == 2)
-      .map((x) => this.renderPlayerCard(x, options));
-    var col4 = this.props.players
-      .filter((_, i) => i % 4 == 3)
-      .map((x) => this.renderPlayerCard(x, options));
+    var colsAmount = 4;
+    var cols = [];
+    for (n = 0; n < colsAmount; n++) {
+      cols.push(
+        this.props.players
+          .filter((_, i) => i % n == 0)
+          .map((x) => (
+            <PlayerCard
+              player={x}
+              options={options ?? {}}
+              highlightVote={this.props.player.vote == x.id}
+            ></PlayerCard>
+          ))
+      );
+    }
+
     return (
       <div className="ui four column grid">
-        <div className="ui column" style={{ padding: "0.2rem" }}>
-          {col1}
-        </div>
-        <div className="ui column" style={{ padding: "0.2rem" }}>
-          {col2}
-        </div>
-        <div className="ui column" style={{ padding: "0.2rem" }}>
-          {col3}
-        </div>
-        <div className="ui column" style={{ padding: "0.2rem" }}>
-          {col4}
-        </div>
-      </div>
-    );
-  }
-
-  renderWinnersList(winners) {
-    return (
-      <div className="ui middle aligned list">
-        Winning players:
-        {winners.map((w) => (
-          <div key={w.id} className="item">
-            <img className="ui avatar image" src={w.image} />
-            <div className="content">
-              <div className="header">
-                <strong>{w.name}</strong> ({RoleNames[w.role]})
-              </div>
-            </div>
-          </div>
-        ))}
+        {cols.map((col, i) => {
+          <div className="ui column" key={i} style={{ padding: "0.2rem" }}>
+            {col}
+          </div>;
+        })}
       </div>
     );
   }
@@ -375,7 +271,7 @@ class LobbyScreen extends Component {
       <center>
         <div style={{ position: "block", height: "10vh" }}></div>
         <h1>{msgs[this.props.winning_faction] || "Draw!"}</h1>
-        {this.renderWinnersList(this.props.players.filter((x) => x.won))}
+        <WinnersList winners={this.props.players.filter((x) => x.won)} />
       </center>
     );
   }
@@ -410,36 +306,25 @@ class LobbyScreen extends Component {
   renderMainDiv() {
     var { phase } = this.props;
 
-    if (phase == Phases.LOBBY) {
-      return this.renderIdleDiv();
-    } else if (phase == Phases.ROLE_SELECTION) {
-      return this.renderRoleSelection();
-    } else if (phase == Phases.PRE_GAME || phase == Phases.DAY_CALLOUTS) {
-      return this.renderPlayerList();
-    } else if (phase == Phases.NIGHT_TRANSITION) {
-      return this.renderBanner("moon");
-    } else if (phase == Phases.NIGHT) {
-      return this.renderNightdiv();
-    } else if (phase == Phases.DAY_TRANSITION) {
-      return this.renderBanner("sun");
-    } else if (phase == Phases.DISCUSSION) {
-      return this.renderPlayerList({
+    var phases = {
+      [Phases.LOBBY]: this.renderIdleDiv(),
+      [Phases.ROLE_SELECTION]: this.renderRoleSelection(),
+      [Phases.PRE_GAME]: this.renderPlayerList(),
+      [Phases.DAY_CALLOUTS]: this.renderPlayerList(),
+      [Phases.NIGHT_TRANSITION]: this.renderBanner("moon"),
+      [Phases.NIGHT]: this.renderNightdiv(),
+      [Phases.DAY_TRANSITION]: this.renderBanner("sun"),
+      [Phases.DISCUSSION]: this.renderPlayerList({
         onclick: (player) => multiplayer.setVote(player.id),
         votes: (player) =>
           this.props.players.filter((x) => x.vote == player.id).length,
-      });
-    } else if (phase == Phases.TRIAL) {
-      return this.renderTrial();
-    } else if (phase == Phases.EXECUTION) {
-      return this.renderExecution();
-    } else if (phase == Phases.GAME_OVER) {
-      return this.renderGameOver();
-    }
-  }
+      }),
+      [Phases.TRIAL]: this.renderTrial(),
+      [Phases.EXECUTION]: this.renderExecution(),
+      [Phases.GAME_OVER]: this.renderGameOver(),
+    };
 
-  // Sends a player payload night action
-  nightActionPlayer(player) {
-    multiplayer.nightAction(player.id);
+    return phases[phase];
   }
 
   renderNightdiv() {
@@ -447,7 +332,10 @@ class LobbyScreen extends Component {
       return (
         <div>
           {this.renderPlayerList({
-            onclick: this.nightActionPlayer,
+            onclick: (player) => {
+              /*Sends a player payload night action*/
+              multiplayer.nightAction(player.id);
+            },
             votes:
               this.props.player.role == Roles.WEREWOLF
                 ? (player) =>
@@ -466,24 +354,16 @@ class LobbyScreen extends Component {
       return this.renderBanner("moon");
     }
   }
-
-  send_execute() {
-    multiplayer.trialGuilty();
-  }
-
-  send_free() {
-    multiplayer.trialInnocent();
-  }
-
+  
   renderGuiltyInno() {
     if (this.props.is_host)
       return (
         <div className="extra content">
           <div className="ui two buttons">
-            <div className="ui basic red button" onClick={this.send_execute}>
+            <div className="ui basic red button" onClick={multiplayer.trialGuilty}>
               Execute
             </div>
-            <div className="ui basic green button" onClick={this.send_free}>
+            <div className="ui basic green button" onClick={multiplayer.trialInnocent}>
               Free
             </div>
           </div>
