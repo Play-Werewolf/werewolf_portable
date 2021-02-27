@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
@@ -15,29 +15,30 @@ import { getNickname, getColor, getAvatar } from "../auth/Profile";
 import Modal from "./Modal";
 
 class App extends Component {
-
   componentDidMount() {
     //location.href = "#";
     multiplayer.init(this.props.dispatch);
-    window.onConnected.push(function() {
+    window.onConnected.push(function () {
       multiplayer.setDetails({
         nickname: getNickname(),
         color: getColor(),
-        avatar: getAvatar()
+        avatar: getAvatar(),
       });
-    })
+    });
 
-    if (false) // change to false on production
-    {
+    if (false) {
+      // change to false on production
       window.localStorage.__proto__ = Object.create(Storage.prototype);
-      window.localStorage.__proto__.setItem = (x, v) => { window["__local__" + x] = v; }
+      window.localStorage.__proto__.setItem = (x, v) => {
+        window["__local__" + x] = v;
+      };
       window.localStorage.__proto__.getItem = (x) => window["__local__" + x];
     }
   }
 
   renderDimmer() {
     if (!this.props.connected) {
-      return <LoginScreen/>;
+      return <LoginScreen />;
     }
   }
 
@@ -48,35 +49,34 @@ class App extends Component {
 
     if (this.props.roomId) {
       if (this.props.page == "setup") {
-        return <SetupScreen/>
+        return <SetupScreen />;
       }
-      return <LobbyScreen/>
+      return <LobbyScreen />;
     }
 
     if (this.props.page == "profile") {
-      return <ProfileScreen/>
+      return <ProfileScreen />;
     }
 
-    return <MainScreen/>
+    return <MainScreen />;
   }
 
   render() {
     return (
       <div>
-      { this.renderScreen() }
-      { this.renderDimmer() }
-      <Modal/>
+        {this.renderScreen()}
+        {this.renderDimmer()}
+        <Modal />
       </div>
-    )
+    );
   }
-    
 }
 
 const mapStateToProps = (state) => {
   return {
     page: state.pages.page,
     connected: state.mp.connected,
-    roomId: state.mp.roomId
+    roomId: state.mp.roomId,
   };
 };
 
