@@ -22,9 +22,6 @@ import posed from "react-pose";
 import MusicPlayer from "../../MusicPlayer";
 import { SquareImage } from "../../SquareImage";
 
-import Blame from "./Blame";
-import VotesPanel from "./VotesPanel";
-
 const TimerLbl = posed.div({
   visible: {
     right: 0,
@@ -63,6 +60,23 @@ class LobbyScreen extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
+  }
+
+  makeBlameDiv(txt) {
+    return (
+      <div>
+        <strong
+          style={{
+            color: "#f00",
+            borderRadius: "10px",
+            padding: "2px",
+            backgroundColor: "black",
+          }}
+        >
+          🡆 {txt}
+        </strong>
+      </div>
+    );
   }
 
   renderVotesPanel(votes, highlighted) {
@@ -120,17 +134,14 @@ class LobbyScreen extends Component {
               textAlign: "center",
             }}
           >
-            {/*blame ? <Blame txt={blame}/> : null*/}
+            {/*blame ? this.makeBlameDiv(blame) : null*/}
             <div style={{ ...style, width: "100%" }}>
               {player.name.substr(0, 15)}
             </div>
           </div>
-          {votes ? (
-            <VotesPanel
-              votes={votes}
-              highlighted={this.props.player.vote == player.id}
-            />
-          ) : null}
+          {votes
+            ? this.renderVotesPanel(votes, this.props.player.vote == player.id)
+            : null}
         </div>
       </div>
     );
