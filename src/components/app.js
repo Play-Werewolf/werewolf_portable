@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
-import LoginScreen from "./containers/LoginScreen";
-import MainScreen from "./containers/MainScreen";
-import ProfileScreen from "./containers/ProfileScreen";
+import LoginScreen from "./screens/LoginScreen";
+import MainScreen from "./screens/MainScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
-import LobbyScreen from "./containers/LobbyScreen";
-import SetupScreen from "./containers/SetupScreen";
+import LobbyScreen from "./screens/lobbyScreen/LobbyScreen";
+import SetupScreen from "./screens/SetupScreen";
 
 import * as multiplayer from "../multiplayer";
 import { getNickname, getColor, getAvatar } from "../auth/Profile";

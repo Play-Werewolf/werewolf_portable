@@ -9,18 +9,21 @@ import {
   RoleMessages,
   RoleCustomButtons,
   RoleColors,
-} from "../../Game";
+} from "../../../Game";
 
-import { moveTo } from "../../actions/PagesActions";
+import { moveTo } from "../../../actions/PagesActions";
 
-import RoleView from "../RoleView";
-import ExecutionView from "../ExecutionView";
+import RoleView from "../../RoleView";
+import ExecutionView from "../../ExecutionView";
 
-import * as multiplayer from "../../multiplayer";
+import * as multiplayer from "../../../multiplayer";
 
 import posed from "react-pose";
-import MusicPlayer from "../MusicPlayer";
-import { SquareImage } from "../SquareImage";
+import MusicPlayer from "../../MusicPlayer";
+import { SquareImage } from "../../SquareImage";
+
+import Blame from "./Blame";
+import VotesPanel from "./VotesPanel";
 
 const TimerLbl = posed.div({
   visible: {
@@ -60,23 +63,6 @@ class LobbyScreen extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
-  }
-
-  makeBlameDiv(txt) {
-    return (
-      <div>
-        <strong
-          style={{
-            color: "#f00",
-            borderRadius: "10px",
-            padding: "2px",
-            backgroundColor: "black",
-          }}
-        >
-          🡆 {txt}
-        </strong>
-      </div>
-    );
   }
 
   renderVotesPanel(votes, highlighted) {
@@ -134,14 +120,17 @@ class LobbyScreen extends Component {
               textAlign: "center",
             }}
           >
-            {/*blame ? this.makeBlameDiv(blame) : null*/}
+            {/*blame ? <Blame txt={blame}/> : null*/}
             <div style={{ ...style, width: "100%" }}>
               {player.name.substr(0, 15)}
             </div>
           </div>
-          {votes
-            ? this.renderVotesPanel(votes, this.props.player.vote == player.id)
-            : null}
+          {votes ? (
+            <VotesPanel
+              votes={votes}
+              highlighted={this.props.player.vote == player.id}
+            />
+          ) : null}
         </div>
       </div>
     );
