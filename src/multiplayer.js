@@ -45,7 +45,7 @@ export const init = (_dispatch) => {
   if (window.location.hostname.startsWith("localhost")) {
     window.io = openSocket("ws://127.0.0.1:12988/");
   } else {
-    window.io = openSocket("wss://" + window.location.hostname + ":12989/");
+    window.io = openSocket("wss://werewolf-old.herokuapp.com/");
   }
 
   window.io.on("connected", () => {
