@@ -12,6 +12,7 @@
     "react-pose": "^4.0.10",
     "react-redux": "^7.2.3",
     "react-scripts": "4.0.3",
+    "react-sound": "^1.2.0",
     "redux": "^4.0.5",
     "semantic-ui-react": "^2.0.3",
     "socket.io-client": "^2.3.1",
