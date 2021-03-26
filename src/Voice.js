@@ -29,5 +29,5 @@ export default (message) => {
     //     speechSynthesis.speak(msg);
     // });
 
-    responsiveVoice.speak(message, "UK English Male", {pitch: 0.6, volume: 2});
+    window.responsiveVoice.speak(message, "UK English Male", {pitch: 0.6, volume: 2});
 };
