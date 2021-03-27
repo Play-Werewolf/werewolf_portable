@@ -1,17 +1,30 @@
 {
   "files": {
-    "main.js": "./static/js/main.637860dc.chunk.js",
-    "main.js.map": "./static/js/main.637860dc.chunk.js.map",
+    "main.js": "./static/js/main.bedb315a.chunk.js",
+    "main.js.map": "./static/js/main.bedb315a.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.a2ba3554.js",
     "runtime-main.js.map": "./static/js/runtime-main.a2ba3554.js.map",
     "static/js/2.77d0f4d9.chunk.js": "./static/js/2.77d0f4d9.chunk.js",
     "static/js/2.77d0f4d9.chunk.js.map": "./static/js/2.77d0f4d9.chunk.js.map",
     "index.html": "./index.html",
-    "static/js/2.77d0f4d9.chunk.js.LICENSE.txt": "./static/js/2.77d0f4d9.chunk.js.LICENSE.txt"
+    "static/js/2.77d0f4d9.chunk.js.LICENSE.txt": "./static/js/2.77d0f4d9.chunk.js.LICENSE.txt",
+    "static/media/arsonist.d167a97c.png": "./static/media/arsonist.d167a97c.png",
+    "static/media/creepy_girl.e90d0585.png": "./static/media/creepy_girl.e90d0585.png",
+    "static/media/healer.4526c90e.png": "./static/media/healer.4526c90e.png",
+    "static/media/investigator.8cf73e9a.png": "./static/media/investigator.8cf73e9a.png",
+    "static/media/jester.05743b38.png": "./static/media/jester.05743b38.png",
+    "static/media/logo.881d41a5.jpg": "./static/media/logo.881d41a5.jpg",
+    "static/media/role_lot.76ae10f9.gif": "./static/media/role_lot.76ae10f9.gif",
+    "static/media/seer.a5ea6768.png": "./static/media/seer.a5ea6768.png",
+    "static/media/veteran.4cd08bc9.png": "./static/media/veteran.4cd08bc9.png",
+    "static/media/villager.9fa000a9.png": "./static/media/villager.9fa000a9.png",
+    "static/media/werewolf.881d41a5.png": "./static/media/werewolf.881d41a5.png",
+    "static/media/witch.4506a634.png": "./static/media/witch.4506a634.png",
+    "static/media/wolf_seer.2a456374.png": "./static/media/wolf_seer.2a456374.png"
   },
   "entrypoints": [
     "static/js/runtime-main.a2ba3554.js",
     "static/js/2.77d0f4d9.chunk.js",
-    "static/js/main.637860dc.chunk.js"
+    "static/js/main.bedb315a.chunk.js"
   ]
 }
