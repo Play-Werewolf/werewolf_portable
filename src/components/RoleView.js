@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { RoleImages, RoleNames } from "../Game";
+import role_lot from "../asset/img/role_lot.gif";
 
 import posed from "react-pose";
 
@@ -60,10 +61,7 @@ class RoleView extends Component {
   }
 
   renderRole() {
-    var url =
-      this.state.phase == 2
-        ? RoleImages[this.props.role]
-        : "asset/img/role_lot.gif";
+    var url = this.state.phase == 2 ? RoleImages[this.props.role] : role_lot;
     var imgv = this.state.phase == 1 ? "hidden" : "visible";
     var txtv = this.state.phase == 2 ? "visible" : "hidden";
     console.log("Rendering ROLE ", this.props.role, RoleNames);

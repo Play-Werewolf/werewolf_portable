@@ -6,8 +6,7 @@
   "repository": "",
   "homepage": ".",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "start": "react-scripts start",
     "test:watch": "npm run test -- --watch",
     "build": "react-scripts build"
   },
@@ -25,5 +24,17 @@
     "redux": "4.0.0",
     "semantic-ui-react": "^0.84.0",
     "socket.io-client": "^2.2.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

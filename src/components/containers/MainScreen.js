@@ -7,6 +7,8 @@ import { moveTo } from "../../actions/PagesActions";
 import * as multiplayer from "../../multiplayer";
 import { getNickname } from "../../auth/Profile";
 
+import logo from "../../asset/img/logo.jpg";
+
 class MainScreen extends Component {
   constructor(props) {
     super(props);
@@ -104,7 +106,7 @@ class MainScreen extends Component {
     return (
       <div>
         <div style={{ width: "100%", textAlign: "center" }}>
-          <img src="/asset/img/logo.jpg" style={{ height: "30vh" }} />
+          <img src={logo} style={{ height: "30vh" }} />
           <div className="ui divider"></div>
           <h1>Join a party</h1>
           <div className={"ui icon input" + (join_loading ? " loading" : "")}>

@@ -1,3 +1,17 @@
+import werewolf from "./asset/img/role/werewolf.png";
+import villager from "./asset/img/role/villager.png";
+import healer from "./asset/img/role/healer.png";
+import seer from "./asset/img/role/seer.png";
+import witch from "./asset/img/role/witch.png";
+import jester from "./asset/img/role/jester.png";
+import priest from "./asset/img/role/priest.png";
+import veteran from "./asset/img/role/veteran.png";
+import arsonist from "./asset/img/role/arsonist.png";
+import wolf_seer from "./asset/img/role/wolf_seer.png";
+import investigator from "./asset/img/role/investigator.png";
+import spy from "./asset/img/role/spy.png";
+import creepy_girl from "./asset/img/role/creepy_girl.png";
+
 export const dict = function () {
   var di = {};
   for (var i = 0; i < arguments.length; i++) {
@@ -66,21 +80,21 @@ export const RoleNames = dict(
 );
 
 export const RoleImages = dict(
-  [Roles.WEREWOLF, "/asset/img/role/werewolf.png"],
-  [Roles.VILLAGER, "/asset/img/role/villager.png"],
-  [Roles.HEALER, "/asset/img/role/healer.png"],
-  [Roles.SEER, "/asset/img/role/seer.png"],
-  [Roles.WITCH, "/asset/img/role/witch.png"],
-  [Roles.JESTER, "/asset/img/role/jester.png"],
-  [Roles.FOOL, "/asset/img/role/jester.png"],
-  [Roles.PRIEST, "/asset/img/role/priest.png"],
-  [Roles.VETERAN, "/asset/img/role/veteran.png"],
-  [Roles.ARSONIST, "/asset/img/role/arsonist.png"],
-  [Roles.WOLF_SEER, "/asset/img/role/wolf_seer.png"],
-  [Roles.INVESTIGATOR, "/asset/img/role/investigator.png"],
-  [Roles.SPY, "/asset/img/role/spy.png"],
-  [Roles.CREEPY_GIRL, "/asset/img/role/creepy_girl.png"],
-  [Roles.DEATH_WITCH, "/asset/img/role/witch.png"]
+  [Roles.WEREWOLF, werewolf],
+  [Roles.VILLAGER, villager],
+  [Roles.HEALER, healer],
+  [Roles.SEER, seer],
+  [Roles.WITCH, witch],
+  [Roles.JESTER, jester],
+  [Roles.FOOL, jester],
+  [Roles.PRIEST, priest],
+  [Roles.VETERAN, veteran],
+  [Roles.ARSONIST, arsonist],
+  [Roles.WOLF_SEER, wolf_seer],
+  [Roles.INVESTIGATOR, investigator],
+  [Roles.SPY, spy],
+  [Roles.CREEPY_GIRL, creepy_girl],
+  [Roles.DEATH_WITCH, witch]
 ); // TODO CHANGE WITCH PIC
 
 export const Phases = {
