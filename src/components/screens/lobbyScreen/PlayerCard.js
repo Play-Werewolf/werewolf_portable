@@ -11,13 +11,13 @@ const PlayerCard = (props) => {
 
   var style = props.player.dead ? styles.dead : styles.alive;
   var outline =
-    props.player.id === this.props.network_id
+    props.player.id === props.networkId
       ? { boxShadow: "0 0 0 3pt gold", borderRadius: "2px" }
       : {};
   var img = props.player.dead
     ? "https://www.freeiconspng.com/uploads/skull-and-crossbones-png-3.png"
     : props.player.image;
-  
+  console.log("creating player", props)
   return (
     <div
       className="ui fluid card"

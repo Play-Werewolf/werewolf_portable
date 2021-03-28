@@ -76,19 +76,22 @@ class LobbyScreen extends Component {
             <PlayerCard
               key={i}
               player={x}
+              networkId={this.props.network_id}
               options={options ?? {}}
               highlightVote={this.props.player.vote === x.id}
             ></PlayerCard>
           ))
       );
     }
-    console.log(cols);
+    console.log("cols: ", cols);
     return (
       <div className="ui four column grid">
         {cols.map((col, i) => {
+          return(
           <div className="ui column" key={i} style={{ padding: "0.2rem" }}>
+            {console.log("col: ",col)}
             {col}
-          </div>;
+          </div>);
         })}
       </div>
     );
