@@ -87,11 +87,12 @@ class LobbyScreen extends Component {
     return (
       <div className="ui four column grid">
         {cols.map((col, i) => {
-          return(
-          <div className="ui column" key={i} style={{ padding: "0.2rem" }}>
-            {console.log("col: ",col)}
-            {col}
-          </div>);
+          return (
+            <div className="ui column" key={i} style={{ padding: "0.2rem" }}>
+              {console.log("col: ", col)}
+              {col}
+            </div>
+          );
         })}
       </div>
     );
@@ -307,59 +308,62 @@ class LobbyScreen extends Component {
       </div>
     );
   }
-  // To Do: Make this work
-  // renderMainDiv() {
-  //   var { phase } = this.props;
-
-  //   var phases = {
-  //     [Phases.LOBBY]: this.renderIdleDiv(),
-  //     [Phases.ROLE_SELECTION]: this.renderRoleSelection(),
-  //     [Phases.PRE_GAME]: this.renderPlayerList(),
-  //     [Phases.DAY_CALLOUTS]: this.renderPlayerList(),
-  //     [Phases.NIGHT_TRANSITION]: this.renderBanner("moon"),
-  //     [Phases.NIGHT]: this.renderNightdiv(),
-  //     [Phases.DAY_TRANSITION]: this.renderBanner("sun"),
-  //     [Phases.DISCUSSION]: this.renderPlayerList({
-  //       onclick: (player) => multiplayer.setVote(player.id),
-  //       votes: (player) =>
-  //         this.props.players.filter((x) => x.vote === player.id).length,
-  //     }),
-  //     [Phases.TRIAL]: this.renderTrial(),
-  //     [Phases.EXECUTION]: this.renderExecution(),
-  //     [Phases.GAME_OVER]: this.renderGameOver(),
-  //   };
-
-  //   return phases[phase]();
-  // }
 
   renderMainDiv() {
     var { phase } = this.props;
 
-    if (phase == Phases.LOBBY) {
-      return this.renderIdleDiv();
-    } else if (phase == Phases.ROLE_SELECTION) {
-      return this.renderRoleSelection();
-    } else if (phase == Phases.PRE_GAME || phase == Phases.DAY_CALLOUTS) {
-      return this.renderPlayerList();
-    } else if (phase == Phases.NIGHT_TRANSITION) {
-      return this.renderBanner("moon");
-    } else if (phase == Phases.NIGHT) {
-      return this.renderNightdiv();
-    } else if (phase == Phases.DAY_TRANSITION) {
-      return this.renderBanner("sun");
-    } else if (phase == Phases.DISCUSSION) {
-      return this.renderPlayerList({
-        onclick: (player) => multiplayer.setVote(player.id),
-        votes: (player) =>
-          this.props.players.filter((x) => x.vote == player.id).length,
-      });
-    } else if (phase == Phases.TRIAL) {
-      return this.renderTrial();
-    } else if (phase == Phases.EXECUTION) {
-      return this.renderExecution();
-    } else if (phase == Phases.GAME_OVER) {
-      return this.renderGameOver();
-    }
+    var phaseRenderers = {
+      [Phases.LOBBY]: {
+        renderer: this.renderIdleDiv.bind(this),
+        param: null,
+      },
+      [Phases.ROLE_SELECTION]: {
+        renderer: this.renderRoleSelection.bind(this),
+        param: null,
+      },
+      [Phases.PRE_GAME]: {
+        renderer: this.renderPlayerList.bind(this),
+        param: null,
+      },
+      [Phases.DAY_CALLOUTS]: {
+        renderer: this.renderPlayerList.bind(this),
+        param: null,
+      },
+      [Phases.NIGHT_TRANSITION]: {
+        renderer: this.renderBanner.bind(this),
+        param: "moon",
+      },
+      [Phases.NIGHT]: {
+        renderer: this.renderNightdiv.bind(this),
+        param: null,
+      },
+      [Phases.DAY_TRANSITION]: {
+        renderer: this.renderBanner.bind(this),
+        param: "sun",
+      },
+      [Phases.DISCUSSION]: {
+        renderer: this.renderPlayerList.bind(this),
+        param: {
+          onclick: (player) => multiplayer.setVote(player.id),
+          votes: (player) =>
+            this.props.players.filter((x) => x.vote === player.id).length,
+        },
+      },
+      [Phases.TRIAL]: {
+        renderer: this.renderTrial.bind(this),
+        param: null,
+      },
+      [Phases.EXECUTION]: {
+        renderer: this.renderExecution.bind(this),
+        param: null,
+      },
+      [Phases.GAME_OVER]: {
+        renderer: this.renderGameOver.bind(this),
+        param: null,
+      },
+    };
+
+    return phaseRenderers[phase]["renderer"](phaseRenderers[phase]["param"]);
   }
 
   renderNightdiv() {
