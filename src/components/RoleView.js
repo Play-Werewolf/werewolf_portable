@@ -69,7 +69,7 @@ class RoleView extends Component {
     console.log("Rendering ROLE ", this.props.role, RoleNames);
     return (
       <div>
-        <RoleImg pose={imgv} style={{ width: "75%" }} src={url} />
+        <RoleImg pose={imgv} style={{ width: "50vh" }} src={url} />
         <center>
           <RoleH1 pose={txtv}>{RoleNames[this.props.role]}</RoleH1>
         </center>
