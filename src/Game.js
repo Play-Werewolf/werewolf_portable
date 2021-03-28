@@ -1,11 +1,3 @@
-export const dict = function () {
-  var di = {};
-  for (var i = 0; i < arguments.length; i++) {
-    di[arguments[i][0]] = arguments[i][1];
-  }
-  return di;
-};
-
 export const Roles = {
   // Town idle
   VILLAGER: "VILLAGER",
@@ -39,49 +31,49 @@ export const Roles = {
   FOOL: "FOOL",
 };
 
-export const RoleNames = dict(
-  [Roles.WEREWOLF, "Werewolf"],
-  [Roles.VILLAGER, "Villager"],
-  [Roles.HEALER, "Healer"],
-  [Roles.SEER, "Fortune Teller"],
-  [Roles.WITCH, "Witch"],
-  [Roles.JESTER, "Jester"],
-  [Roles.FOOL, "Fool"],
-  [Roles.PRIEST, "Priest"],
-  [Roles.VETERAN, "Veteran"],
-  [Roles.ARSONIST, "Arsonist"],
-  [Roles.WOLF_SEER, "Wolf Seer"],
-  [Roles.INVESTIGATOR, "Investigator"],
-  [Roles.SPY, "Spy"],
-  [Roles.WOLF_SEER, "Wolf Seer"],
-  [Roles.ARSONIST, "Arsonist"],
-  [Roles.CREEPY_GIRL, "Creepy Girl"],
-  [Roles.DEATH_WITCH, "Death Witch"],
+export const RoleNames = {
+  [Roles.WEREWOLF]: "Werewolf",
+  [Roles.VILLAGER]: "Villager",
+  [Roles.HEALER]: "Healer",
+  [Roles.SEER]: "Fortune Teller",
+  [Roles.WITCH]: "Witch",
+  [Roles.JESTER]: "Jester",
+  [Roles.FOOL]: "Fool",
+  [Roles.PRIEST]: "Priest",
+  [Roles.VETERAN]: "Veteran",
+  [Roles.ARSONIST]: "Arsonist",
+  [Roles.WOLF_SEER]: "Wolf Seer",
+  [Roles.INVESTIGATOR]: "Investigator",
+  [Roles.SPY]: "Spy",
+  [Roles.WOLF_SEER]: "Wolf Seer",
+  [Roles.ARSONIST]: "Arsonist",
+  [Roles.CREEPY_GIRL]: "Creepy Girl",
+  [Roles.DEATH_WITCH]: "Death Witch",
 
-  ["TOWN_INV", "♦ Invest ♦"],
-  ["TOWN_ATCK", "♦ Attack ♦"],
-  ["TOWN_RAND", "♦ Random ♦"],
-  ["WOLF_RAND", "♦ Random ♦"],
-  ["RANDOM", "♦ Random ♦"]
-);
+  TOWN_INV: "♦ Invest ♦",
+  TOWN_ATCK: "♦ Attack ♦",
+  TOWN_RAND: "♦ Random ♦",
+  WOLF_RAND: "♦ Random ♦",
+  RANDOM: "♦ Random ♦",
+};
 
-export const RoleImages = dict(
-  [Roles.WEREWOLF, require("./asset/img/role/werewolf.png").default],
-  [Roles.VILLAGER, require("./asset/img/role/villager.png").default],
-  [Roles.HEALER, require("./asset/img/role/healer.png").default],
-  [Roles.SEER, require("./asset/img/role/seer.png").default],
-  [Roles.WITCH, require("./asset/img/role/witch.png").default],
-  [Roles.JESTER, require("./asset/img/role/jester.png").default],
-  [Roles.FOOL, require("./asset/img/role/jester.png").default],
-  [Roles.PRIEST, require("./asset/img/role/priest.png").default],
-  [Roles.VETERAN, require("./asset/img/role/veteran.png").default],
-  [Roles.ARSONIST, require("./asset/img/role/arsonist.png").default],
-  [Roles.WOLF_SEER, require("./asset/img/role/wolf_seer.png").default],
-  [Roles.INVESTIGATOR, require("./asset/img/role/investigator.png").default],
-  [Roles.SPY, require("./asset/img/role/spy.png").default],
-  [Roles.CREEPY_GIRL, require("./asset/img/role/creepy_girl.png").default],
-  [Roles.DEATH_WITCH, require("./asset/img/role/witch.png").default]
-); // TODO CHANGE WITCH PIC
+export const RoleImages = {
+  [Roles.WEREWOLF]: require("./asset/img/role/werewolf.png").default,
+  [Roles.VILLAGER]: require("./asset/img/role/villager.png").default,
+  [Roles.HEALER]: require("./asset/img/role/healer.png").default,
+  [Roles.SEER]: require("./asset/img/role/seer.png").default,
+  [Roles.WITCH]: require("./asset/img/role/witch.png").default,
+  [Roles.JESTER]: require("./asset/img/role/jester.png").default,
+  [Roles.FOOL]: require("./asset/img/role/jester.png").default,
+  [Roles.PRIEST]: require("./asset/img/role/priest.png").default,
+  [Roles.VETERAN]: require("./asset/img/role/veteran.png").default,
+  [Roles.ARSONIST]: require("./asset/img/role/arsonist.png").default,
+  [Roles.WOLF_SEER]: require("./asset/img/role/wolf_seer.png").default,
+  [Roles.INVESTIGATOR]: require("./asset/img/role/investigator.png").default,
+  [Roles.SPY]: require("./asset/img/role/spy.png").default,
+  [Roles.CREEPY_GIRL]: require("./asset/img/role/creepy_girl.png").default,
+  [Roles.DEATH_WITCH]: require("./asset/img/role/witch.png").default,
+}; // TODO CHANGE WITCH PIC
 
 export const Phases = {
   LOBBY: "LOBBY",
@@ -97,64 +89,58 @@ export const Phases = {
   GAME_OVER: "GAME_OVER",
 };
 
-export const RoleMessages = dict(
-  [Roles.WEREWOLF, "Pick a player to kill"],
-  [Roles.VILLAGER, "You are useless"],
-  [Roles.HEALER, "Pick a player to heal"],
-  [Roles.SEER, "Pick a player to check"],
-  [Roles.WITCH, "Pick a player to spell, then pick their new target"],
-  [Roles.JESTER, "Pick a player to haunt"],
-  [Roles.PRIEST, "Pick a player to kill"],
-  [Roles.VETERAN, "Would you like to stay on alert?"],
-  [Roles.ARSONIST, "Pick a player to douse or ignite doused players"],
-  [Roles.WOLF_SEER, "Pick a player to check"],
-  [Roles.INVESTIGATOR, "Pick a player to investigate"],
-  [Roles.SPY, "Pick a player to look at"],
-  [Roles.WOLF_SEER, "Pick a player to check"],
-  [Roles.ARSONIST, "Pick a player to douse or ignite your targets"],
-  [Roles.CREEPY_GIRL, "Pick a player to give your doll to"],
-  [Roles.DEATH_WITCH, "Pick a player to kill"]
-);
+export const RoleMessages = {
+  [Roles.WEREWOLF]: "Pick a player to kill",
+  [Roles.VILLAGER]: "You are useless",
+  [Roles.HEALER]: "Pick a player to heal",
+  [Roles.SEER]: "Pick a player to check",
+  [Roles.WITCH]: "Pick a player to spell, then pick their new target",
+  [Roles.JESTER]: "Pick a player to haunt",
+  [Roles.PRIEST]: "Pick a player to kill",
+  [Roles.VETERAN]: "Would you like to stay on alert?",
+  [Roles.ARSONIST]: "Pick a player to douse or ignite doused players",
+  [Roles.WOLF_SEER]: "Pick a player to check",
+  [Roles.INVESTIGATOR]: "Pick a player to investigate",
+  [Roles.SPY]: "Pick a player to look at",
+  [Roles.WOLF_SEER]: "Pick a player to check",
+  [Roles.ARSONIST]: "Pick a player to douse or ignite your targets",
+  [Roles.CREEPY_GIRL]: "Pick a player to give your doll to",
+  [Roles.DEATH_WITCH]: "Pick a player to kill",
+};
 
-export const RoleColors = dict(
-  [Roles.WEREWOLF, "red"],
-  [Roles.WOLF_SEER, "red"],
-  [Roles.VILLAGER, "green"],
-  [Roles.HEALER, "green"],
-  [Roles.SEER, "green"],
-  [Roles.SPY, "green"],
-  [Roles.INVESTIGATOR, "green"],
-  [Roles.PRIEST, "green"],
-  [Roles.VETERAN, "green"],
-  [Roles.WITCH, "purple"],
-  [Roles.CREEPY_GIRL, "purple"],
-  [Roles.DEATH_WITCH, "purple"],
-  [Roles.JESTER, "blue"],
-  [Roles.FOOL, "blue"],
-  [Roles.ARSONIST, "orange"],
-  ["TOWN_INV", "green"],
-  ["TOWN_ATCK", "green"],
-  ["TOWN_RAND", "green"],
-  ["WOLF_RAND", "red"],
-  ["RANDOM", "white"]
-);
+export const RoleColors = {
+  [Roles.WEREWOLF]: "red",
+  [Roles.WOLF_SEER]: "red",
+  [Roles.VILLAGER]: "green",
+  [Roles.HEALER]: "green",
+  [Roles.SEER]: "green",
+  [Roles.SPY]: "green",
+  [Roles.INVESTIGATOR]: "green",
+  [Roles.PRIEST]: "green",
+  [Roles.VETERAN]: "green",
+  [Roles.WITCH]: "purple",
+  [Roles.CREEPY_GIRL]: "purple",
+  [Roles.DEATH_WITCH]: "purple",
+  [Roles.JESTER]: "blue",
+  [Roles.FOOL]: "blue",
+  [Roles.ARSONIST]: "orange",
+  TOWN_INV: "green",
+  TOWN_ATCK: "green",
+  TOWN_RAND: "green",
+  WOLF_RAND: "red",
+  RANDOM: "white",
+};
 
-export const RoleCustomButtons = dict(
-  [
-    Roles.VETERAN,
-    [
-      ["Alert", true],
-      ["Sleep", false],
-    ],
+export const RoleCustomButtons = {
+  [Roles.VETERAN]: [
+    ["Alert", true],
+    ["Sleep", false],
   ],
-  [
-    Roles.ARSONIST,
-    [
-      ["Ignite", true],
-      ["Pass", false],
-    ],
-  ]
-);
+  [Roles.ARSONIST]: [
+    ["Ignite", true],
+    ["Pass", false],
+  ],
+};
 
 export const Presets = {
   EMPTY: {
