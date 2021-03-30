@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import {
-  Phases,
-  Roles,
-  RoleCustomButtons,
-} from "../../../Game";
+import { Phases, Roles, RoleCustomButtons } from "../../../Game";
 
 import { moveTo } from "../../../actions/PagesActions";
 
@@ -17,8 +13,8 @@ import * as multiplayer from "../../../multiplayer";
 import posed from "react-pose";
 import MusicPlayer from "../../MusicPlayer";
 
-import PlayerCard from "./PlayerCard";
 import SunAndMoonDiv from "./SunAndMoonDiv";
+import PlayerList from "./lists/PlayerList";
 import WinnersList from "./lists/WinnersList";
 import RolesList from "./lists/RolesList";
 import PregameHeader from "./headers/PregameHeader";
@@ -40,7 +36,6 @@ class LobbyScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.renderPlayerList = this.renderPlayerList.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
     this.renderMainDiv = this.renderMainDiv.bind(this);
 
@@ -61,37 +56,6 @@ class LobbyScreen extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
-  }
-
-  renderPlayerList(options) {
-    var colsAmount = 4;
-    var cols = [];
-    for (let n = 0; n < colsAmount; n++) {
-      cols.push(
-        this.props.players
-          .filter((_, i) => i % colsAmount === n)
-          .map((x, i) => (
-            <PlayerCard
-              key={i}
-              player={x}
-              networkId={this.props.network_id}
-              options={options ?? {}}
-              highlightVote={this.props.player.vote === x.id}
-            ></PlayerCard>
-          ))
-      );
-    }
-    return (
-      <div className="ui four column grid">
-        {cols.map((col, i) => {
-          return (
-            <div className="ui column" key={i} style={{ padding: "0.2rem" }}>
-              {col}
-            </div>
-          );
-        })}
-      </div>
-    );
   }
 
   sendSkip() {
@@ -228,9 +192,12 @@ class LobbyScreen extends Component {
   renderIdleDiv() {
     return (
       <div>
-        {this.renderPlayerList({
-          onclick: (p) => this.kickPlayer(p),
-        })}
+        <PlayerList
+          players={this.props.players}
+          network_id={this.props.network_id}
+          playerVote={this.props.player.vote}
+          options={{ onclick: (p) => this.kickPlayer(p) }}
+        />
         <p>&nbsp;</p>
         <div>
           Roles:{" "}
@@ -255,14 +222,20 @@ class LobbyScreen extends Component {
         renderer: this.renderRoleSelection.bind(this),
         param: null,
       },
-      [Phases.PRE_GAME]: {
-        renderer: this.renderPlayerList.bind(this),
-        param: null,
-      },
-      [Phases.DAY_CALLOUTS]: {
-        renderer: this.renderPlayerList.bind(this),
-        param: null,
-      },
+      [Phases.PRE_GAME]: (
+        <PlayerList
+          players={this.props.players}
+          network_id={this.props.network_id}
+          playerVote={this.props.player.vote}
+        />
+      ),
+      [Phases.DAY_CALLOUTS]: (
+        <PlayerList
+          players={this.props.players}
+          network_id={this.props.network_id}
+          playerVote={this.props.player.vote}
+        />
+      ),
       [Phases.NIGHT_TRANSITION]: {
         renderer: this.renderBanner.bind(this),
         param: "moon",
@@ -275,14 +248,18 @@ class LobbyScreen extends Component {
         renderer: this.renderBanner.bind(this),
         param: "sun",
       },
-      [Phases.DISCUSSION]: {
-        renderer: this.renderPlayerList.bind(this),
-        param: {
-          onclick: (player) => multiplayer.setVote(player.id),
-          votes: (player) =>
-            this.props.players.filter((x) => x.vote === player.id).length,
-        },
-      },
+      [Phases.DISCUSSION]: (
+        <PlayerList
+          players={this.props.players}
+          network_id={this.props.network_id}
+          playerVote={this.props.player.vote}
+          options={{
+            onclick: (player) => multiplayer.setVote(player.id),
+            votes: (player) =>
+              this.props.players.filter((x) => x.vote === player.id).length,
+          }}
+        />
+      ),
       [Phases.TRIAL]: {
         renderer: this.renderTrial.bind(this),
         param: null,
@@ -304,22 +281,27 @@ class LobbyScreen extends Component {
     if (this.props.player.active) {
       return (
         <div>
-          {this.renderPlayerList({
-            onclick: (player) => {
-              /*Sends a player payload night action*/
-              multiplayer.nightAction(player.id);
-            },
-            votes:
-              this.props.player.role === Roles.WEREWOLF
-                ? (player) =>
-                    this.props.players.filter(
-                      (x) =>
-                        x.role === Roles.WEREWOLF &&
-                        !x.dead &&
-                        x.target === player.id
-                    ).length
-                : null,
-          })}
+          <PlayerList
+            players={this.props.players}
+            network_id={this.props.network_id}
+            playerVote={this.props.player.vote}
+            options={{
+              onclick: (player) => {
+                /*Sends a player payload night action*/
+                multiplayer.nightAction(player.id);
+              },
+              votes:
+                this.props.player.role === Roles.WEREWOLF
+                  ? (player) =>
+                      this.props.players.filter(
+                        (x) =>
+                          x.role === Roles.WEREWOLF &&
+                          !x.dead &&
+                          x.target === player.id
+                      ).length
+                  : null,
+            }}
+          />
           {this.renderCustomButtons()}
         </div>
       );
