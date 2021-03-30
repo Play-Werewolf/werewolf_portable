@@ -1,7 +1,7 @@
 import React from "react";
 import PlayerCard from "../PlayerCard"
 
-const PlayerList = () => {
+const PlayerList = (props) => {
   var colsAmount = 4;
   var cols = [];
   for (let n = 0; n < colsAmount; n++) {

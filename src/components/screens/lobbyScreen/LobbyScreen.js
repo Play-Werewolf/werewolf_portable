@@ -6,7 +6,7 @@ import { Phases, Roles, RoleCustomButtons } from "../../../Game";
 import { moveTo } from "../../../actions/PagesActions";
 
 import RoleView from "../../RoleView";
-import ExecutionView from "../../ExecutionView";
+import ExecutionView from "./ExecutionView";
 
 import * as multiplayer from "../../../multiplayer";
 
@@ -14,11 +14,14 @@ import posed from "react-pose";
 import MusicPlayer from "../../MusicPlayer";
 
 import SunAndMoonDiv from "./SunAndMoonDiv";
+import Banner from "./Banner";
+import Trial from "./Trial";
+import GameOver from "./GameOver";
 import PlayerList from "./lists/PlayerList";
-import WinnersList from "./lists/WinnersList";
 import RolesList from "./lists/RolesList";
 import PregameHeader from "./headers/PregameHeader";
 import IngameHeader from "./headers/IngameHeader";
+import IdleDiv from "./divs/IdleDiv";
 import styles from "./styles";
 
 const TimerLbl = posed.div({
@@ -149,79 +152,31 @@ class LobbyScreen extends Component {
     }
   }
 
-  renderRoleSelection() {
-    return <RoleView role={this.props.player.role} />;
-  }
-
-  renderBanner(icon) {
-    return (
-      <center>
-        <div style={{ position: "block", height: "20vh" }}></div>
-        <i className={"massive icon " + icon}></i>
-      </center>
-    );
-  }
-
   kickPlayer(p) {
     if (this.props.is_host) {
       multiplayer.kick(p.id);
     }
   }
 
-  renderGameOver() {
-    var msgs = {
-      WEREWOLVES: "Werewolves Win!",
-      VILLAGE: "Village Wins!",
-      DRAW: "Wipeout!",
-      NOKILL: "Draw! (no kills)",
-      NEUTRAL: "Neutral Players Win!",
-      WITCH: "Witch wins!",
-      ARSONIST: "Arsonist wins!",
-      FOOL: "Fool wins!",
-    };
-
-    return (
-      <center>
-        <div style={{ position: "block", height: "10vh" }}></div>
-        <h1>{msgs[this.props.winning_faction] || "Draw!"}</h1>
-        <WinnersList winners={this.props.players.filter((x) => x.won)} />
-      </center>
-    );
-  }
-
-  renderIdleDiv() {
-    return (
-      <div>
-        <PlayerList
-          players={this.props.players}
-          network_id={this.props.network_id}
-          playerVote={this.props.player.vote}
-          options={{ onclick: (p) => this.kickPlayer(p) }}
-        />
-        <p>&nbsp;</p>
-        <div>
-          Roles:{" "}
-          <RolesList
-            roles={this.props.roles}
-            playersAmount={this.props.players.length}
-          />{" "}
-        </div>
-      </div>
-    );
-  }
-
   renderMainDiv() {
     var { phase } = this.props;
 
     var phaseRenderers = {
-      [Phases.LOBBY]: {
-        renderer: this.renderIdleDiv.bind(this),
-        param: null,
-      },
-      [Phases.ROLE_SELECTION]: {
-        renderer: this.renderRoleSelection.bind(this),
-        param: null,
-      },
+      [Phases.LOBBY]: (
+        <IdleDiv>
+          <PlayerList
+            players={this.props.players}
+            network_id={this.props.network_id}
+            playerVote={this.props.player.vote}
+            options={{ onclick: (p) => this.kickPlayer(p) }}
+          />
+          <RolesList
+            roles={this.props.roles}
+            playersAmount={this.props.players.length}
+          />
+        </IdleDiv>
+      ),
+      [Phases.ROLE_SELECTION]: <RoleView role={this.props.player.role} />,
       [Phases.PRE_GAME]: (
         <PlayerList
           players={this.props.players}
@@ -236,18 +191,12 @@ class LobbyScreen extends Component {
           playerVote={this.props.player.vote}
         />
       ),
-      [Phases.NIGHT_TRANSITION]: {
-        renderer: this.renderBanner.bind(this),
-        param: "moon",
-      },
+      [Phases.NIGHT_TRANSITION]: <Banner icon="moon" />,
       [Phases.NIGHT]: {
         renderer: this.renderNightdiv.bind(this),
         param: null,
       },
-      [Phases.DAY_TRANSITION]: {
-        renderer: this.renderBanner.bind(this),
-        param: "sun",
-      },
+      [Phases.DAY_TRANSITION]: <Banner icon="sun" />,
       [Phases.DISCUSSION]: (
         <PlayerList
           players={this.props.players}
@@ -260,21 +209,22 @@ class LobbyScreen extends Component {
           }}
         />
       ),
-      [Phases.TRIAL]: {
-        renderer: this.renderTrial.bind(this),
-        param: null,
-      },
-      [Phases.EXECUTION]: {
-        renderer: this.renderExecution.bind(this),
-        param: null,
-      },
-      [Phases.GAME_OVER]: {
-        renderer: this.renderGameOver.bind(this),
-        param: null,
-      },
+      [Phases.TRIAL]: (
+        <Trial
+          player_on_stand={this.props.player_on_stand}
+          is_host={this.props.is_host}
+        />
+      ),
+      [Phases.EXECUTION]: <ExecutionView player={this.props.player_on_stand} />,
+      [Phases.GAME_OVER]: (
+        <GameOver
+          winning_faction={this.props.winning_faction}
+          winners={this.props.players.filter((x) => x.won)}
+        />
+      ),
     };
 
-    return phaseRenderers[phase]["renderer"](phaseRenderers[phase]["param"]);
+    return phaseRenderers[phase];
   }
 
   renderNightdiv() {
@@ -306,63 +256,8 @@ class LobbyScreen extends Component {
         </div>
       );
     } else {
-      return this.renderBanner("moon");
+      return <Banner icon="moon" />;
     }
-  }
-
-  renderGuiltyInno() {
-    if (this.props.is_host)
-      return (
-        <div className="extra content">
-          <div className="ui two buttons">
-            <div
-              className="ui basic red button"
-              onClick={multiplayer.trialGuilty}
-            >
-              Execute
-            </div>
-            <div
-              className="ui basic green button"
-              onClick={multiplayer.trialInnocent}
-            >
-              Free
-            </div>
-          </div>
-        </div>
-      );
-  }
-
-  renderTrial() {
-    var p = this.props.player_on_stand;
-    return (
-      <center>
-        <div className="ui card">
-          <div
-            className="image"
-            style={{
-              width: "50%",
-              backgroundColor: "transparent",
-              margin: "20px",
-            }}
-          >
-            <img src={p.image} />
-          </div>
-          <div className="content">
-            <div className="header">{p.name}</div>
-          </div>
-          {this.renderGuiltyInno()}
-        </div>
-      </center>
-    );
-  }
-
-  renderExecution() {
-    return (
-      <div>
-        <ExecutionView player={this.props.player_on_stand} />
-        <div style={{ height: "100vh" }}>&nbsp;</div>
-      </div>
-    );
   }
 
   sendStartGame() {
