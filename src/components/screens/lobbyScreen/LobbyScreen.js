@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Phases, Roles, RoleCustomButtons } from "../../../Game";
+import { Phases, RoleCustomButtons } from "../../../Game";
 
 import { moveTo } from "../../../actions/PagesActions";
 
@@ -22,6 +22,7 @@ import RolesList from "./lists/RolesList";
 import PregameHeader from "./headers/PregameHeader";
 import IngameHeader from "./headers/IngameHeader";
 import IdleDiv from "./divs/IdleDiv";
+import NightDiv from "./divs/NightDiv";
 import styles from "./styles";
 
 const TimerLbl = posed.div({
@@ -192,10 +193,13 @@ class LobbyScreen extends Component {
         />
       ),
       [Phases.NIGHT_TRANSITION]: <Banner icon="moon" />,
-      [Phases.NIGHT]: {
-        renderer: this.renderNightdiv.bind(this),
-        param: null,
-      },
+      [Phases.NIGHT]: (
+        <NightDiv
+          player={this.props.player}
+          players={this.props.players}
+          network_id={this.props.network_id}
+        />
+      ),
       [Phases.DAY_TRANSITION]: <Banner icon="sun" />,
       [Phases.DISCUSSION]: (
         <PlayerList
@@ -225,39 +229,6 @@ class LobbyScreen extends Component {
     };
 
     return phaseRenderers[phase];
-  }
-
-  renderNightdiv() {
-    if (this.props.player.active) {
-      return (
-        <div>
-          <PlayerList
-            players={this.props.players}
-            network_id={this.props.network_id}
-            playerVote={this.props.player.vote}
-            options={{
-              onclick: (player) => {
-                /*Sends a player payload night action*/
-                multiplayer.nightAction(player.id);
-              },
-              votes:
-                this.props.player.role === Roles.WEREWOLF
-                  ? (player) =>
-                      this.props.players.filter(
-                        (x) =>
-                          x.role === Roles.WEREWOLF &&
-                          !x.dead &&
-                          x.target === player.id
-                      ).length
-                  : null,
-            }}
-          />
-          {this.renderCustomButtons()}
-        </div>
-      );
-    } else {
-      return <Banner icon="moon" />;
-    }
   }
 
   sendStartGame() {
@@ -292,28 +263,6 @@ class LobbyScreen extends Component {
         </div>
       </TimerLbl>
     );
-  }
-
-  renderCustomButtons() {
-    return (
-      <center>
-        <br />
-        {this.customButtonList(RoleCustomButtons[this.props.player.role])}
-      </center>
-    );
-  }
-
-  customButtonList(buttons) {
-    buttons = buttons || [["Pass", false]];
-    return buttons.map((b) => (
-      <button
-        key={b[0]}
-        className="ui primary button"
-        onClick={() => multiplayer.nightAction(b[1])}
-      >
-        {b[0]}
-      </button>
-    ));
   }
 
   showRole() {
