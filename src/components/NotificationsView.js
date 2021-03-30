@@ -11,7 +11,7 @@ class NotificationView extends Component {
     this.btnClick = this.btnClick.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       shown: true,
     });

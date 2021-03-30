@@ -42,7 +42,7 @@ class ProfileScreen extends Component {
     this.discard = this.discard.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       nickname: getNickname(),
       color: getColor(),

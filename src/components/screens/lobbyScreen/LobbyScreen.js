@@ -52,7 +52,8 @@ class LobbyScreen extends Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
+    console.log(this.props.timer);
     this.timer = setInterval(() => {
       var time = this.props.timer
         ? Math.max(0, this.props.timer - new Date().getTime())
