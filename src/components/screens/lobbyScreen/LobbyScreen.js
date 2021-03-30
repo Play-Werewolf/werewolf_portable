@@ -83,13 +83,11 @@ class LobbyScreen extends Component {
           ))
       );
     }
-    console.log("cols: ", cols);
     return (
       <div className="ui four column grid">
         {cols.map((col, i) => {
           return (
             <div className="ui column" key={i} style={{ padding: "0.2rem" }}>
-              {console.log("col: ", col)}
               {col}
             </div>
           );
@@ -417,7 +415,6 @@ class LobbyScreen extends Component {
   }
 
   renderTrial() {
-    console.log(this.props.player_on_stand);
     var p = this.props.player_on_stand;
     return (
       <center>
@@ -430,7 +427,6 @@ class LobbyScreen extends Component {
               margin: "20px",
             }}
           >
-            {console.log(this.props)}
             <img src={p.image} />
           </div>
           <div className="content">
@@ -508,7 +504,6 @@ class LobbyScreen extends Component {
   }
 
   showRole() {
-    console.log(this.props.player);
     if (!this.props.player.role) {
       window.Modal.open(
         <div>
@@ -748,8 +743,6 @@ const mapStateToProps = (state) => {
   var me = players.filter((x) => x.id === state.mp.id);
   if (me.length > 0) me = me[0];
   else me = null;
-
-  console.log("Role ", me.role);
 
   return {
     partyId: state.mp.roomId,

@@ -51,7 +51,6 @@ class ProfileScreen extends Component {
 
     window.io.off("bitmoji");
     window.io.on("bitmoji", (data) => {
-      console.log(data);
       this.setState({
         avatarOptions: data,
       });

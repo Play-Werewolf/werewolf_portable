@@ -68,7 +68,6 @@ export const init = (_dispatch) => {
   });
 
   window.io.on("disconnect", () => {
-    console.log("wtf2");
     update({ connected: false });
   });
 

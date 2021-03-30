@@ -72,7 +72,6 @@ class Modal extends Component {
   }
 
   open(content) {
-    console.log(this.state.openState);
     this.modalContent = content;
     if (this.state.openState === "open") {
       this.__hide();

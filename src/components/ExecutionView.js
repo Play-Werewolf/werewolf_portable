@@ -23,8 +23,6 @@ class ExecutionView extends Component {
     this.state = {
       imgshown: "visible",
     };
-
-    console.log("Creating an execution view", props);
   }
 
   componentDidMount() {

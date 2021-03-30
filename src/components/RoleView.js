@@ -66,7 +66,6 @@ class RoleView extends Component {
         : require("../asset/img/role_lot.gif").default;
     var imgv = this.state.phase === 1 ? "hidden" : "visible";
     var txtv = this.state.phase === 2 ? "visible" : "hidden";
-    console.log("Rendering ROLE ", this.props.role, RoleNames);
     return (
       <div>
         <RoleImg pose={imgv} style={{ width: "50vh" }} src={url} />

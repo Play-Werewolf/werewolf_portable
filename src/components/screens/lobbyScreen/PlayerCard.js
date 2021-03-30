@@ -17,7 +17,6 @@ const PlayerCard = (props) => {
   var img = props.player.dead
     ? "https://www.freeiconspng.com/uploads/skull-and-crossbones-png-3.png"
     : props.player.image;
-  console.log("creating player", props)
   return (
     <div
       className="ui fluid card"

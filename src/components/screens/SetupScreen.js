@@ -38,7 +38,6 @@ class SetupScreen extends Component {
   }
 
   renderRoleCard(key, name, color) {
-    console.log(name);
     var style =
       color === "white"
         ? {
@@ -59,7 +58,6 @@ class SetupScreen extends Component {
   }
 
   renderRolesList() {
-    console.log(this.props);
     return this.props.roles.map((x, i) =>
       this.renderRoleCard(i, RoleNames[x], RoleColors[x])
     );
