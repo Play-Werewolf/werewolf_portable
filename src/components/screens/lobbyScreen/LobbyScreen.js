@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Phases, RoleCustomButtons } from "../../../Game";
+import { Phases } from "../../../Game";
 
 import { moveTo } from "../../../actions/PagesActions";
 
