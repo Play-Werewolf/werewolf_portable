@@ -23,6 +23,8 @@ import MusicPlayer from "../../MusicPlayer";
 
 import PlayerCard from "./PlayerCard";
 import WinnersList from "./WinnersList";
+import PregameHeader from "./headers/PregameHeader";
+import IngameHeader from "./headers/IngameHeader";
 import styles from "./styles";
 
 const TimerLbl = posed.div({
@@ -42,8 +44,6 @@ class LobbyScreen extends Component {
 
     this.renderPlayerList = this.renderPlayerList.bind(this);
     this.renderSun = this.renderSun.bind(this);
-    this.renderPregameHeader = this.renderPregameHeader.bind(this);
-    this.renderIngameHeader = this.renderIngameHeader.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
     this.renderMainDiv = this.renderMainDiv.bind(this);
 
@@ -190,54 +190,21 @@ class LobbyScreen extends Component {
     }
   }
 
-  renderPregameHeader() {
-    return (
-      <div style={styles.headerStyle}>
-        Party id:
-        <h1>{this.props.partyId}</h1>
-      </div>
-    );
-  }
-
-  renderIngameHeader() {
-    var msg =
-      {
-        ROLE_SELECTION: "ROLES LOT...",
-        PRE_GAME: "Get ready to play...",
-        NIGHT_TRANSITION: "The night shall now begin...",
-        NIGHT: "Night",
-        DAY_TRANSITION: "The day shall now begin...",
-        DISCUSSION: "Discussion...",
-        EXECUTION: "Execution!",
-        GAME_OVER: "Game over!",
-      }[this.props.phase] || this.props.message;
-
-    if (this.props.player.active && this.props.phase === Phases.NIGHT) {
-      if (this.props.nightIndex === "SPOOKY_DOLL") {
-        msg = "Pass the spooky doll to someone";
-      } else {
-        msg = RoleMessages[this.props.player.role];
-      }
-    }
-    return (
-      <div
-        style={{ ...styles.headerStyle, marginLeft: "3em", marginTop: ".5em" }}
-      >
-        <h3>{msg}</h3>
-      </div>
-    );
-  }
-
   renderHeader() {
     if (this.props.in_game) {
       return (
         <div>
-          {this.renderIngameHeader()}
+          <IngameHeader
+            phase={this.props.phase}
+            message={this.props.message}
+            player={this.props.player}
+            nightIndex={this.props.nightIndex}
+          />
           {this.renderSun()}
         </div>
       );
     } else {
-      return this.renderPregameHeader();
+      return <PregameHeader partyId={this.props.partyId} />;
     }
   }
 
