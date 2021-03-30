@@ -1,5 +1,5 @@
 import React from "react";
-import { RoleNames } from "../../../Game";
+import { RoleNames } from "../../../../Game";
 
 const WinnersList = (props) => {
   return (

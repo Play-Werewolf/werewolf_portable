@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import {
   Phases,
   Roles,
-  RoleNames,
-  RoleImages,
-  RoleMessages,
   RoleCustomButtons,
-  RoleColors,
 } from "../../../Game";
 
 import { moveTo } from "../../../actions/PagesActions";
@@ -22,8 +18,9 @@ import posed from "react-pose";
 import MusicPlayer from "../../MusicPlayer";
 
 import PlayerCard from "./PlayerCard";
-import WinnersList from "./WinnersList";
 import SunAndMoonDiv from "./SunAndMoonDiv";
+import WinnersList from "./lists/WinnersList";
+import RolesList from "./lists/RolesList";
 import PregameHeader from "./headers/PregameHeader";
 import IngameHeader from "./headers/IngameHeader";
 import styles from "./styles";
@@ -228,21 +225,6 @@ class LobbyScreen extends Component {
     );
   }
 
-  renderRolesList() {
-    return this.props.roles.slice(0, this.props.players.length).map((x, i) => (
-      <div
-        key={i}
-        style={{
-          display: "inline-block",
-          fontWeight: "bold",
-          color: RoleColors[x],
-        }}
-      >
-        {RoleNames[x]},&nbsp;&nbsp;
-      </div>
-    ));
-  }
-
   renderIdleDiv() {
     return (
       <div>
@@ -250,7 +232,13 @@ class LobbyScreen extends Component {
           onclick: (p) => this.kickPlayer(p),
         })}
         <p>&nbsp;</p>
-        <div>Roles: {this.renderRolesList()}</div>
+        <div>
+          Roles:{" "}
+          <RolesList
+            roles={this.props.roles}
+            playersAmount={this.props.players.length}
+          />{" "}
+        </div>
       </div>
     );
   }
