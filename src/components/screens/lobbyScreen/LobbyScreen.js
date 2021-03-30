@@ -23,6 +23,7 @@ import MusicPlayer from "../../MusicPlayer";
 
 import PlayerCard from "./PlayerCard";
 import WinnersList from "./WinnersList";
+import SunAndMoonDiv from "./SunAndMoonDiv";
 import PregameHeader from "./headers/PregameHeader";
 import IngameHeader from "./headers/IngameHeader";
 import styles from "./styles";
@@ -43,7 +44,6 @@ class LobbyScreen extends Component {
     super(props);
 
     this.renderPlayerList = this.renderPlayerList.bind(this);
-    this.renderSun = this.renderSun.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
     this.renderMainDiv = this.renderMainDiv.bind(this);
 
@@ -168,28 +168,6 @@ class LobbyScreen extends Component {
     }
   }
 
-  renderSun() {
-    if (this.props.in_game) {
-      return (
-        <div
-          style={{
-            position: "fixed",
-            left: 0,
-            top: 0,
-            marginTop: "1em",
-            marginLeft: "0.5em",
-            zIndex: 10,
-          }}
-        >
-          <i
-            className={"ui icon " + (this.props.is_night ? "moon" : "sun")}
-            style={{ fontSize: "2em" }}
-          ></i>
-        </div>
-      );
-    }
-  }
-
   renderHeader() {
     if (this.props.in_game) {
       return (
@@ -200,7 +178,9 @@ class LobbyScreen extends Component {
             player={this.props.player}
             nightIndex={this.props.nightIndex}
           />
-          {this.renderSun()}
+          {this.props.in_game ? (
+            <SunAndMoonDiv is_night={this.props.is_night} />
+          ) : null}
         </div>
       );
     } else {
