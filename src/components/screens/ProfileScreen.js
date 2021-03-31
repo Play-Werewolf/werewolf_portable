@@ -13,7 +13,6 @@ import {
 import { moveTo } from "../../actions/PagesActions";
 
 import * as multiplayer from "../../multiplayer";
-import { SquareImage } from "../SquareImage";
 
 const colors = [
   "#87ceeb", // light blue
@@ -144,7 +143,7 @@ class ProfileScreen extends Component {
   renderCards() {
     return this.state.avatarOptions.map((x) => (
       <div key={x} style={{ width: "25%" }} onClick={() => this.setAvatar(x)}>
-        <img src={x} style={{ maxWidth: "90%", maxHeight: "90%" }} />
+        <img src={x} alt="" style={{ maxWidth: "90%", maxHeight: "90%" }} />
       </div>
     ));
   }
@@ -189,6 +188,7 @@ class ProfileScreen extends Component {
           <center>
             <img
               style={{ height: "20vh" }}
+              alt=""
               src={this.state.avatar}
               onClick={this.avatarSelection.bind(this)}
             />

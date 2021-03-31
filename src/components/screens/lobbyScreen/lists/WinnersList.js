@@ -7,7 +7,7 @@ const WinnersList = (props) => {
       Winning players:
       {props.winners.map((w) => (
         <div key={w.id} className="item">
-          <img className="ui avatar image" src={w.image} />
+          <img className="ui avatar image" src={w.image} alt="" />
           <div className="content">
             <div className="header">
               <strong>{w.name}</strong> ({RoleNames[w.role]})

@@ -58,7 +58,11 @@ class ExecutionView extends Component {
               className="image"
               style={{ overflow: "hidden", width: "50vw" }}
             >
-              <img src={"https://i.imgur.com/D4Lko8G.png"} style={graveStyle} />
+              <img
+                src={"https://i.imgur.com/D4Lko8G.png"}
+                alt=""
+                style={graveStyle}
+              />
               <TriedImage
                 src={this.props.player.image}
                 style={styles.overlapping}

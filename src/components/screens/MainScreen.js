@@ -104,7 +104,11 @@ class MainScreen extends Component {
     return (
       <div>
         <div style={{ width: "100%", textAlign: "center" }}>
-          <img src={require("../../asset/img/logo.jpg").default} style={{ height: "30vh" }} />
+          <img
+            src={require("../../asset/img/logo.jpg").default}
+            alt=""
+            style={{ height: "30vh" }}
+          />
           <div className="ui divider"></div>
           <h1>Join a party</h1>
           <div className={"ui icon input" + (join_loading ? " loading" : "")}>

@@ -6,8 +6,6 @@ import speak from "./Voice";
 import NotificationView from "./components/NotificationsView";
 import { Presets } from "./Game";
 
-import { moveTo } from "./actions/PagesActions";
-
 var dispatch = null;
 var roomId = null;
 

@@ -16,6 +16,7 @@ export const SquareImage = (props) => {
       >
         <img
           src={props.src}
+          alt=""
           style={{ maxWidth: "90%", maxHeight: "80%", margin: "5%" }}
         />
       </div>

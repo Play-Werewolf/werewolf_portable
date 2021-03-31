@@ -320,14 +320,14 @@ class LobbyScreen extends Component {
           backgroundColor: "black",
         }}
       >
-        <a className="item" onClick={() => multiplayer.leaveRoom()}>
+        <a href="# " className="item" onClick={() => multiplayer.leaveRoom()}>
           Exit
         </a>
-        <a className="item" onClick={this.showRole.bind(this)}>
+        <a href="# " className="item" onClick={this.showRole.bind(this)}>
           Show Role
         </a>
         {this.props.phase === Phases.DISCUSSION ? (
-          <a className="item" onClick={() => multiplayer.showNotifications()}>
+          <a href="# " className="item" onClick={() => multiplayer.showNotifications()}>
             Notifications
           </a>
         ) : null}
@@ -402,60 +402,60 @@ class LobbyScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  var __players = [
-    {
-      id: "182736125",
-      role: "VILLAGER",
-      name: "Yotam",
-      img: "https://semantic-ui.com/images/avatar/small/steve.jpg",
-    },
-    {
-      id: "6345234318",
-      name: "Koren",
-      img: "https://semantic-ui.com/images/avatar2/small/matthew.png",
-    },
-    {
-      id: "34523657445",
-      name: "Ron",
-      img: "https://semantic-ui.com/images/avatar2/large/rachel.png",
-    },
-    {
-      id: "09345342314",
-      name: "Shai",
-      img: "https://semantic-ui.com/images/avatar2/small/elyse.png",
-    },
-    {
-      id: "34543657445",
-      name: "Shir",
-      img: "https://semantic-ui.com/images/avatar/large/elliot.jpg",
-    },
-    {
-      id: "09394342314",
-      dead: true,
-      name: "Daniel",
-      img: "https://semantic-ui.com/images/avatar/large/daniel.jpg",
-    },
-    {
-      id: "34543657245",
-      name: "Shaked",
-      img: "https://semantic-ui.com/images/avatar2/large/molly.png",
-    },
-    {
-      id: "09394372314",
-      name: "Or",
-      img: "https://semantic-ui.com/images/avatar/large/jenny.jpg",
-    },
-    {
-      id: "34543657449",
-      name: "Diana",
-      img: "https://semantic-ui.com/images/avatar/large/helen.jpg",
-    },
-    {
-      id: "19394342314",
-      name: "Kalman",
-      img: "https://semantic-ui.com/images/avatar/large/veronika.jpg",
-    },
-  ];
+  // var __players = [
+  //   {
+  //     id: "182736125",
+  //     role: "VILLAGER",
+  //     name: "Yotam",
+  //     img: "https://semantic-ui.com/images/avatar/small/steve.jpg",
+  //   },
+  //   {
+  //     id: "6345234318",
+  //     name: "Koren",
+  //     img: "https://semantic-ui.com/images/avatar2/small/matthew.png",
+  //   },
+  //   {
+  //     id: "34523657445",
+  //     name: "Ron",
+  //     img: "https://semantic-ui.com/images/avatar2/large/rachel.png",
+  //   },
+  //   {
+  //     id: "09345342314",
+  //     name: "Shai",
+  //     img: "https://semantic-ui.com/images/avatar2/small/elyse.png",
+  //   },
+  //   {
+  //     id: "34543657445",
+  //     name: "Shir",
+  //     img: "https://semantic-ui.com/images/avatar/large/elliot.jpg",
+  //   },
+  //   {
+  //     id: "09394342314",
+  //     dead: true,
+  //     name: "Daniel",
+  //     img: "https://semantic-ui.com/images/avatar/large/daniel.jpg",
+  //   },
+  //   {
+  //     id: "34543657245",
+  //     name: "Shaked",
+  //     img: "https://semantic-ui.com/images/avatar2/large/molly.png",
+  //   },
+  //   {
+  //     id: "09394372314",
+  //     name: "Or",
+  //     img: "https://semantic-ui.com/images/avatar/large/jenny.jpg",
+  //   },
+  //   {
+  //     id: "34543657449",
+  //     name: "Diana",
+  //     img: "https://semantic-ui.com/images/avatar/large/helen.jpg",
+  //   },
+  //   {
+  //     id: "19394342314",
+  //     name: "Kalman",
+  //     img: "https://semantic-ui.com/images/avatar/large/veronika.jpg",
+  //   },
+  // ];
 
   // var phase = Phases.LOBBY;
   // var { roomId, clients, message, player_on_stand, id } = state.mp;

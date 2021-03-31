@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { Header, Button } from "semantic-ui-react";
-
 import { connect } from "react-redux";
 
 import { login } from "../../actions/AuthActions";

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { SquareImage } from "../../SquareImage";
-import Blame from "./Blame"
 import VotesPanel from "./VotesPanel"
 import styles from "./styles";
 

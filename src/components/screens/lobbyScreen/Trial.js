@@ -35,7 +35,7 @@ const Trial = (props) => {
             margin: "20px",
           }}
         >
-          <img src={props.player_on_stand.image} />
+          <img src={props.player_on_stand.image} alt="" />
         </div>
         <div className="content">
           <div className="header">{props.player_on_stand.name}</div>
