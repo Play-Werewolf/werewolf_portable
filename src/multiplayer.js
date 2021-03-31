@@ -244,6 +244,7 @@ export const removeRole = (role) => {
 };
 
 export const setPreset = (preset) => {
+  console.log(preset);
   window.action("set_preset", Presets[preset].roles);
 };
 

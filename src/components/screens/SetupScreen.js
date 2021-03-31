@@ -21,10 +21,10 @@ class SetupScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    document.getElementById(".ui.dropdown").dropdown();
-  }
-  
+  // componentDidMount() {
+  //   document.getElementById(".ui.dropdown").dropdown();
+  // }
+
   renderRoleBtn(role, name, color, customStyle = {}) {
     return (
       <button
@@ -66,7 +66,7 @@ class SetupScreen extends Component {
   presetClick(e) {
     e = e || window.event;
     var target = e.target;
-    setPreset(target.getAttribute("data-value"));
+    setPreset(target.options[target.selectedIndex].value);
     window.cE = target;
   }
 
@@ -104,9 +104,11 @@ class SetupScreen extends Component {
             style={{ overflowY: "auto", height: "100%" }}
           >
             <center>Add roles:</center>
-            <div onClick={(e) => this.presetClick(e)}>
-              <select className="ui fluid dropdown">
-                <option value="">Presets</option>
+            <div onChange={(e) => this.presetClick(e)}>
+              <select className="ui fluid dropdown" defaultValue={"DEFAULT"}>
+                <option value="DEFAULT" disabled>
+                  Presets
+                </option>
                 {Object.keys(Presets).map((preset) => (
                   <option key={preset} value={preset}>
                     {Presets[preset].name}
