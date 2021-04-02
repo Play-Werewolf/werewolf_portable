@@ -2,7 +2,7 @@ import openSocket from "socket.io-client";
 
 import React from "react";
 
-import speak from "./Voice";
+import speech from "./Voice";
 import NotificationView from "./components/NotificationsView";
 import { Presets } from "./Game";
 
@@ -45,6 +45,8 @@ export const init = (_dispatch) => {
   // } else {
     window.io = openSocket("wss://werewolf-old.herokuapp.com");
   // }
+
+  speech();
 
   window.io.on("connected", () => {
     update({
@@ -108,9 +110,9 @@ export const init = (_dispatch) => {
     );
   });
 
-  window.io.on("speak", function (data) {
-    speak(data);
-  });
+  // window.io.on("speak", function (data) {
+  //   speak(data);
+  // });
 
   window.io.on("seer_result", function (data) {
     let _nightAction = nightAction;
