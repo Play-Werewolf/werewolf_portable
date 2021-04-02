@@ -142,7 +142,11 @@ class ProfileScreen extends Component {
 
   renderCards() {
     return this.state.avatarOptions.map((x) => (
-      <div key={x} style={{ width: "25%" }} onClick={() => this.setAvatar(x)}>
+      <div
+        key={x}
+        style={{ width: "20%" }}
+        onClick={() => this.setAvatar(x)}
+      >
         <img src={x} alt="" style={{ maxWidth: "90%", maxHeight: "90%" }} />
       </div>
     ));
