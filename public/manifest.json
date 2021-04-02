@@ -1,0 +1,15 @@
+{
+    "short_name": "Play WW",
+    "name": "Play Werewolf Online",
+    "icons": [
+      {
+        "src": "favicon.ico",
+        "sizes": "48x48",
+        "type": "image/x-icon"
+      }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#ac6635",
+    "background_color": "#f3f3f3"
+  }
