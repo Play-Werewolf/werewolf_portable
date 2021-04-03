@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { RoleImages, RoleNames } from "../Game";
+import role_lot from "../asset/img/role_lot.gif";
 
 import posed from "react-pose";
 
