@@ -320,14 +320,35 @@ class LobbyScreen extends Component {
           backgroundColor: "black",
         }}
       >
-        <a href="# " className="item" onClick={() => multiplayer.leaveRoom()}>
+        <a
+          href="# "
+          className="item"
+          onClick={(e) => {
+            e.preventDefault();
+            multiplayer.leaveRoom();
+          }}
+        >
           Exit
         </a>
-        <a href="# " className="item" onClick={this.showRole.bind(this)}>
+        <a
+          href="# "
+          className="item"
+          onClick={(e) => {
+            e.preventDefault();
+            this.showRole();
+          }}
+        >
           Show Role
         </a>
         {this.props.phase === Phases.DISCUSSION ? (
-          <a href="# " className="item" onClick={() => multiplayer.showNotifications()}>
+          <a
+            href="# "
+            className="item"
+            onClick={(e) => {
+              e.preventDefault();
+              multiplayer.showNotifications();
+            }}
+          >
             Notifications
           </a>
         ) : null}
