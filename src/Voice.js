@@ -7,7 +7,7 @@ export default function speech() {
       volume: 0.75,
       lang: "en-GB",
       rate: 1,
-      pitch: 1,
+      pitch: 0.6,
       voice: "Google UK English Male",
     })
     .then((data) => {
