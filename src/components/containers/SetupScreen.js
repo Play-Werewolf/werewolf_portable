@@ -118,6 +118,7 @@ class SetupScreen extends Component {
             </div>
             <br />
             {this.renderRoleBtn("VILLAGER", "Villager", "green")}
+            {this.renderRoleBtn("MASON", "Mason", "green")}
             {this.renderRoleBtn("HEALER", "Healer", "green")}
             {this.renderRoleBtn("SEER", "Fortune Teller", "green")}
             {this.renderRoleBtn("SPY", "Spy", "green")}

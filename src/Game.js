@@ -11,6 +11,7 @@ import wolf_seer from "./asset/img/role/wolf_seer.png";
 import investigator from "./asset/img/role/investigator.png";
 import spy from "./asset/img/role/spy.png";
 import creepy_girl from "./asset/img/role/creepy_girl.png";
+import mason from "./asset/img/role/mason.png";
 
 export const dict = function () {
   var di = {};
@@ -26,6 +27,7 @@ export const Roles = {
 
   // Town protective
   HEALER: "HEALER",
+  MASON: "MASON",
 
   // Town informative
   SEER: "SEER",
@@ -71,6 +73,7 @@ export const RoleNames = dict(
   [Roles.ARSONIST, "Arsonist"],
   [Roles.CREEPY_GIRL, "Creepy Girl"],
   [Roles.DEATH_WITCH, "Death Witch"],
+  [Roles.MASON, "Mason"],
 
   ["TOWN_INV", "♦ Invest ♦"],
   ["TOWN_ATCK", "♦ Attack ♦"],
@@ -94,7 +97,8 @@ export const RoleImages = dict(
   [Roles.INVESTIGATOR, investigator],
   [Roles.SPY, spy],
   [Roles.CREEPY_GIRL, creepy_girl],
-  [Roles.DEATH_WITCH, witch]
+  [Roles.DEATH_WITCH, witch],
+  [Roles.MASON, mason]
 ); // TODO CHANGE WITCH PIC
 
 export const Phases = {
@@ -114,6 +118,7 @@ export const Phases = {
 export const RoleMessages = dict(
   [Roles.WEREWOLF, "Pick a player to kill"],
   [Roles.VILLAGER, "You are useless"],
+  [Roles.MASON, "Know your partner"],
   [Roles.HEALER, "Pick a player to heal"],
   [Roles.SEER, "Pick a player to check"],
   [Roles.WITCH, "Pick a player to spell, then pick their new target"],
@@ -134,6 +139,7 @@ export const RoleColors = dict(
   [Roles.WEREWOLF, "red"],
   [Roles.WOLF_SEER, "red"],
   [Roles.VILLAGER, "green"],
+  [Roles.MASON, "green"],
   [Roles.HEALER, "green"],
   [Roles.SEER, "green"],
   [Roles.SPY, "green"],
@@ -167,6 +173,12 @@ export const RoleCustomButtons = dict(
       ["Ignite", true],
       ["Pass", false],
     ],
+  ],
+  [
+    Roles.MASON,
+    [
+      ["Finish", true],
+    ]
   ]
 );
 
