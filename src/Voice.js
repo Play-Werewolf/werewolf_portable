@@ -13,26 +13,31 @@ const getVoice = (name) => {
 
 const defaultVoice = () => {
   return (
-    getVoice("UK English Male") ||
-    getVoice("Japanese Japan") ||
+    getVoice("UK") ||
+    getVoice("Great Britain") ||
     getVoice("English")
   );
 };
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 export default (message) => {
-  // return new Promise((resolve, reject) => {
-  //     alert(defaultVoice().name);
-  //     var voice = defaultVoice();
-  //     var pitch = 0.6;
+  return new Promise((resolve, reject) => {
+      // alert(defaultVoice().name);
+      var voice = defaultVoice();
+      var pitch = 1.2;
 
-  //     var msg = new SpeechSynthesisUtterance(message);
-  //     msg.pitch = pitch;
-  //     msg.voice = voice;
-  //     msg.onend = resolve;
+      var msg = new SpeechSynthesisUtterance(message);
+      msg.pitch = pitch;
+      msg.voice = voice;
+      msg.onend = resolve;
 
-  //     speechSynthesis.cancel();
-  //     speechSynthesis.speak(msg);
-  // });
+      speechSynthesis.cancel();
+      speechSynthesis.speak(msg);
+  });
 
-  responsiveVoice.speak(message, "UK English Male", { pitch: 0.6, volume: 2 });
+  // responsiveVoice.speak(message, "UK English Male", { pitch: 0.6, volume: 2 });
 };
